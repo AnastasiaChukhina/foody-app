@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -45,6 +47,30 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
 
     implementation 'androidx.preference:preference:1.2.0'
+
+    implementation "io.coil-kt:coil:1.4.0"
+
+    def lifecycle = "2.4.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle}"
+
+    // region Network
+    def retrofit = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
+
+    def okhttp = "4.9.3"
+    implementation "com.squareup.okhttp3:okhttp:${okhttp}"
+    debugImplementation "com.squareup.okhttp3:logging-interceptor:${okhttp}"
+    // endregion
+
+    def dagger = "2.41"
+    implementation "com.google.dagger:hilt-android:$dagger"
+    kapt "com.google.dagger:hilt-compiler:$dagger"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

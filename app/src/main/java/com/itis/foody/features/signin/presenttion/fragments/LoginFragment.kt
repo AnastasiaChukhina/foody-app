@@ -1,4 +1,4 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.signin.presenttion.fragments
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -6,19 +6,22 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
-import com.itis.foody.databinding.FragmentRegistrationBinding
-import com.itis.foody.extensions.hideActionBar
-import com.itis.foody.extensions.navigateBack
-import com.itis.foody.extensions.setBackButton
-import com.itis.foody.extensions.showActionBar
+import com.itis.foody.databinding.FragmentLoginBinding
+import com.itis.foody.common.extensions.*
+import com.itis.foody.common.utils.ResourceManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class RegistrationFragment : Fragment(R.layout.fragment_registration) {
+@AndroidEntryPoint
+class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    private lateinit var binding: FragmentRegistrationBinding
+    @Inject
+    private lateinit var resourceManager: ResourceManager
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRegistrationBinding.bind(view)
+        binding = FragmentLoginBinding.bind(view)
 
         setActionBarAttrs()
         setListeners()
@@ -34,10 +37,9 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
     }
 
     private fun setListeners() {
-        binding.btnSignUp.setOnClickListener {
+        binding.btnSignIn.setOnClickListener {
             findNavController().navigate(
-                R.id.action_registrationFragment_to_profileFragment,
-                null,
+                R.id.action_loginFragment_to_profileFragment,
                 null
             )
         }
@@ -46,6 +48,6 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
     private fun setActionBarAttrs() {
         showActionBar()
         setBackButton()
-//        setTitle()
+        setTitle(resourceManager.getString(R.string.log_in))
     }
 }

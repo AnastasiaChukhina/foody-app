@@ -1,4 +1,4 @@
-package com.itis.foody.extensions
+package com.itis.foody.common.extensions
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment

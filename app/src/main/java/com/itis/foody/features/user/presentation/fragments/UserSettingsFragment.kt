@@ -1,4 +1,4 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.user.presentation.fragments
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,10 +8,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.itis.foody.R
 import com.itis.foody.databinding.FragmentUserSettingsBinding
-import com.itis.foody.extensions.navigateBack
-import com.itis.foody.extensions.setBackButton
-import com.itis.foody.extensions.setTitle
+import com.itis.foody.common.extensions.navigateBack
+import com.itis.foody.common.extensions.setBackButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
 
     private lateinit var binding: FragmentUserSettingsBinding

@@ -1,4 +1,4 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.recipe.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.itis.foody.R
 import com.itis.foody.databinding.DialogFragmentRecipeInfoBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipeInfoDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogFragmentRecipeInfoBinding

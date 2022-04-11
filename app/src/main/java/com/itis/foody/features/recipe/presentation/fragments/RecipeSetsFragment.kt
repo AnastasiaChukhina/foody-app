@@ -1,4 +1,4 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.recipe.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -6,10 +6,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
 import com.itis.foody.databinding.FragmentRecipeSetsBinding
-import com.itis.foody.extensions.hideBackButton
+import com.itis.foody.common.extensions.hideBackButton
+import com.itis.foody.common.extensions.setTitle
+import com.itis.foody.common.utils.ResourceManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecipeSetsFragment : Fragment(R.layout.fragment_recipe_sets) {
 
+    @Inject
+    private lateinit var resourceManager: ResourceManager
     private lateinit var binding: FragmentRecipeSetsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,6 +32,6 @@ class RecipeSetsFragment : Fragment(R.layout.fragment_recipe_sets) {
 
     private fun setActionBarAttrs() {
         hideBackButton()
-//        setTitle()
+        setTitle(resourceManager.getString(R.string.saved_recipes))
     }
 }

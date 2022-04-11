@@ -8,7 +8,7 @@
         app:startDestination="@id/profileFragment">
         <fragment
             android:id="@+id/profileFragment"
-            android:name="com.itis.foody.fragments.ProfileFragment"
+            android:name="com.itis.foody.features.user.presentation.fragments.ProfileFragment"
             android:label="ProfileFragment">
             <action
                 android:id="@+id/action_profileFragment_to_welcomeFragment"
@@ -28,7 +28,7 @@
         </fragment>
         <fragment
             android:id="@+id/searchFragment"
-            android:name="com.itis.foody.fragments.SearchFragment"
+            android:name="com.itis.foody.features.search.presentation.fragments.SearchFragment"
             android:label="SearchFragment">
             <action
                 android:id="@+id/action_searchFragment_to_detailRecipeFragment"
@@ -39,7 +39,7 @@
             app:startDestination="@id/detailRecipeFragment">
             <fragment
                 android:id="@+id/detailRecipeFragment"
-                android:name="com.itis.foody.fragments.DetailRecipeFragment"
+                android:name="com.itis.foody.features.recipe.presentation.fragments.DetailRecipeFragment"
                 android:label="DetailRecipeFragment">
                 <action
                     android:id="@+id/action_detailRecipeFragment_to_recipeInfoDialogFragment"
@@ -47,7 +47,7 @@
             </fragment>
             <dialog
                 android:id="@+id/recipeInfoDialogFragment"
-                android:name="com.itis.foody.fragments.RecipeInfoDialogFragment"
+                android:name="com.itis.foody.features.recipe.presentation.fragments.RecipeInfoDialogFragment"
                 android:label="RecipeInfoDialogFragment" />
         </navigation>
         <navigation
@@ -55,7 +55,7 @@
             app:startDestination="@id/recipeSetsFragment">
             <fragment
                 android:id="@+id/recipeSetsFragment"
-                android:name="com.itis.foody.fragments.RecipeSetsFragment"
+                android:name="com.itis.foody.features.recipe.presentation.fragments.RecipeSetsFragment"
                 android:label="RecipeSetsFragment">
                 <action
                     android:id="@+id/action_recipeSetsFragment_to_savedRecipesFragment"
@@ -63,7 +63,7 @@
             </fragment>
             <fragment
                 android:id="@+id/savedRecipesFragment"
-                android:name="com.itis.foody.fragments.SavedRecipesFragment"
+                android:name="com.itis.foody.features.recipe.presentation.fragments.SavedRecipesFragment"
                 android:label="SavedRecipesFragment">
                 <action
                     android:id="@+id/action_savedRecipesFragment_to_detailRecipeFragment"
@@ -72,18 +72,18 @@
         </navigation>
         <fragment
             android:id="@+id/userSettingsFragment"
-            android:name="com.itis.foody.fragments.UserSettingsFragment"
+            android:name="com.itis.foody.features.user.presentation.fragments.UserSettingsFragment"
             android:label="UserSettingsFragment" />
         <fragment
             android:id="@+id/notificationsSettingsFragment"
-            android:name="com.itis.foody.fragments.NotificationsSettingsFragment"
+            android:name="com.itis.foody.features.user.presentation.fragments.NotificationsSettingsFragment"
             android:label="NotificationsSettingsFragment" />
     </navigation>
     <navigation android:id="@+id/nav_auth"
         app:startDestination="@id/welcomeFragment">
         <fragment
             android:id="@+id/welcomeFragment"
-            android:name="com.itis.foody.fragments.WelcomeFragment"
+            android:name="com.itis.foody.features.user.presentation.fragments.WelcomeFragment"
             android:label="WelcomeFragment">
             <action
                 android:id="@+id/action_welcomeFragment_to_loginFragment"
@@ -94,7 +94,7 @@
         </fragment>
         <fragment
             android:id="@+id/registrationFragment"
-            android:name="com.itis.foody.fragments.RegistrationFragment"
+            android:name="com.itis.foody.features.signup.presentation.fragments.RegistrationFragment"
             android:label="RegistrationFragment">
             <action
                 android:id="@+id/action_registrationFragment_to_profileFragment"
@@ -102,7 +102,7 @@
         </fragment>
         <fragment
             android:id="@+id/loginFragment"
-            android:name="com.itis.foody.fragments.LoginFragment"
+            android:name="com.itis.foody.features.signin.presenttion.fragments.LoginFragment"
             android:label="LoginFragment">
             <action
                 android:id="@+id/action_loginFragment_to_profileFragment"

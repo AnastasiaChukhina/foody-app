@@ -1,15 +1,15 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.recipe.presentation.fragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.itis.foody.MainActivity
 import com.itis.foody.R
 import com.itis.foody.databinding.FragmentDetailRecipeBinding
-import com.itis.foody.extensions.*
+import com.itis.foody.common.extensions.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
 
     private lateinit var binding: FragmentDetailRecipeBinding

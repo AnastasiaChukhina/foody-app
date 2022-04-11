@@ -1,4 +1,4 @@
-package com.itis.foody.extensions
+package com.itis.foody.common.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController

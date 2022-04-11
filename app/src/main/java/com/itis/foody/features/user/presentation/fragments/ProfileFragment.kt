@@ -1,4 +1,4 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.user.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
 import com.itis.foody.databinding.FragmentProfileBinding
-import com.itis.foody.extensions.hideBackButton
+import com.itis.foody.common.extensions.hideBackButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private lateinit var binding: FragmentProfileBinding

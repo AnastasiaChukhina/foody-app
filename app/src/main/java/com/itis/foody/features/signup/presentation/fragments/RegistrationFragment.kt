@@ -1,4 +1,4 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.signup.presentation.fragments
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -6,16 +6,22 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
-import com.itis.foody.databinding.FragmentLoginBinding
-import com.itis.foody.extensions.*
+import com.itis.foody.common.extensions.*
+import com.itis.foody.databinding.FragmentRegistrationBinding
+import com.itis.foody.common.utils.ResourceManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+@AndroidEntryPoint
+class RegistrationFragment : Fragment(R.layout.fragment_registration) {
 
-    private lateinit var binding: FragmentLoginBinding
+    @Inject
+    private lateinit var resourceManager: ResourceManager
+    private lateinit var binding: FragmentRegistrationBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentLoginBinding.bind(view)
+        binding = FragmentRegistrationBinding.bind(view)
 
         setActionBarAttrs()
         setListeners()
@@ -31,9 +37,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun setListeners() {
-        binding.btnSignIn.setOnClickListener {
+        binding.btnSignUp.setOnClickListener {
             findNavController().navigate(
-                R.id.action_loginFragment_to_profileFragment,
+                R.id.action_registrationFragment_to_profileFragment,
+                null,
                 null
             )
         }
@@ -42,6 +49,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun setActionBarAttrs() {
         showActionBar()
         setBackButton()
-//        setTitle()
+        setTitle(resourceManager.getString(R.string.registration))
     }
 }

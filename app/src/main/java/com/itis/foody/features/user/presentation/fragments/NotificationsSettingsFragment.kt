@@ -1,14 +1,14 @@
-package com.itis.foody.fragments
+package com.itis.foody.features.user.presentation.fragments
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 import com.itis.foody.R
-import com.itis.foody.extensions.navigateBack
-import com.itis.foody.extensions.setBackButton
-import com.itis.foody.extensions.setTitle
+import com.itis.foody.common.extensions.navigateBack
+import com.itis.foody.common.extensions.setBackButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NotificationsSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

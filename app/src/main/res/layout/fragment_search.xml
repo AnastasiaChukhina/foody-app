@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_popular"
+        android:id="@+id/rv_recipe_sets"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -47,7 +47,7 @@
         android:background="@color/search_view"
         app:layout_constraintEnd_toEndOf="@id/gl_vert_end"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"
-        app:layout_constraintTop_toBottomOf="@id/rv_popular" />
+        app:layout_constraintTop_toBottomOf="@id/rv_recipe_sets" />
 
     <TextView
         android:id="@+id/tv_last_seen"
@@ -60,7 +60,7 @@
         android:id="@+id/group_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="tv_popular, rv_popular, tv_last_seen, rv_last_seen" />
+        app:constraint_referenced_ids="tv_popular, rv_recipe_sets, tv_last_seen, rv_last_seen" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_last_seen"

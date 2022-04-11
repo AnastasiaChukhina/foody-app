@@ -16,9 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleTextAppearance="@style/TextViewCollapsingToolbar"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="@string/recipe_name">
+            app:title="@string/recipe_name"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <ImageView
                 android:id="@+id/iv_recipe"
@@ -43,8 +45,8 @@
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="320dp"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_content"

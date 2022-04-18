@@ -1,4 +1,4 @@
-package com.itis.foody.features.signup.domain.service
+package com.itis.foody.features.signup.domain.services
 
 import com.itis.foody.common.validators.EmailValidator
 import com.itis.foody.common.validators.PasswordValidator

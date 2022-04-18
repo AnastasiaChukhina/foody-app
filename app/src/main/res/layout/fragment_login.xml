@@ -9,6 +9,7 @@
         android:id="@+id/til_email"
         style="@style/TextInputLayoutStyle"
         android:hint="@string/email"
+        app:counterMaxLength="@integer/email_max_length"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,13 +21,16 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
             style="@style/TextInputEditTextStyle"
-            android:inputType="textEmailAddress" />
+            android:layout_weight="1"
+            android:inputType="textEmailAddress"
+            android:maxLength="@integer/email_max_length" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_pass"
         style="@style/TextInputLayoutStyle"
         android:hint="@string/password"
+        app:counterMaxLength="@integer/password_max_length"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="@id/til_email"
         app:layout_constraintStart_toStartOf="@id/til_email"
@@ -38,7 +42,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_pass"
             style="@style/TextInputEditTextStyle"
-            android:inputType="textPassword" />
+            android:layout_weight="1"
+            android:inputType="textPassword"
+            android:maxLength="@integer/password_max_length" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

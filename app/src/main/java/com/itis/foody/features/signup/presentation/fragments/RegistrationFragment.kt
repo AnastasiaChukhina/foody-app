@@ -18,7 +18,7 @@ import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentRegistrationBinding
 import com.itis.foody.features.signup.domain.exceptions.DifferentPasswordsException
 import com.itis.foody.features.signup.domain.models.UserForm
-import com.itis.foody.features.signup.domain.service.SignUpValidationService
+import com.itis.foody.features.signup.domain.services.SignUpValidationService
 import com.itis.foody.features.signup.presentation.viewModels.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -145,7 +145,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
 
     private fun initObservers() {
         viewModel.user.observe(viewLifecycleOwner) {
-            it.fold(onSuccess = {
+            it?.fold(onSuccess = {
                 showMessage("Successfully registered")
                 navigateToProfile()
             }, onFailure = {

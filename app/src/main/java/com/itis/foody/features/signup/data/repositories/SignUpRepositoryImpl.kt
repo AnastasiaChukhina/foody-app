@@ -42,9 +42,6 @@ class SignUpRepositoryImpl @Inject constructor(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("SignUp", "Sign Up successfully")
-//                    task.addOnCompleteListener {
-//                        firebaseUser = auth.currentUser
-//                    }
                 } else {
                     Log.e("SignUp", "Sign up failed", task.exception)
                 }

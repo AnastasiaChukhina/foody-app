@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
     @Inject
-    private lateinit var resourceManager: ResourceManager
+    lateinit var resourceManager: ResourceManager
     private lateinit var binding: FragmentSearchBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

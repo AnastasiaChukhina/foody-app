@@ -11,4 +11,8 @@ class ResourceManager @Inject constructor(
     fun getString(id: Int): String {
         return context.getString(id)
     }
+
+    fun getInteger(id: Int): Int{
+        return context.resources.getInteger(id)
+    }
 }

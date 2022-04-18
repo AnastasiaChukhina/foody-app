@@ -99,6 +99,9 @@
             <action
                 android:id="@+id/action_registrationFragment_to_profileFragment"
                 app:destination="@id/nav_app_content" />
+            <action
+                android:id="@+id/action_registrationFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
         </fragment>
         <fragment
             android:id="@+id/loginFragment"
@@ -107,6 +110,9 @@
             <action
                 android:id="@+id/action_loginFragment_to_profileFragment"
                 app:destination="@id/nav_app_content" />
+            <action
+                android:id="@+id/action_loginFragment_to_registrationFragment"
+                app:destination="@id/registrationFragment" />
         </fragment>
     </navigation>
 </navigation>

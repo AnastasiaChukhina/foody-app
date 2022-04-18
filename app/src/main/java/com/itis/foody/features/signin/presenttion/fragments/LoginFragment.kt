@@ -16,7 +16,7 @@ import javax.inject.Inject
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     @Inject
-    private lateinit var resourceManager: ResourceManager
+    lateinit var resourceManager: ResourceManager
     private lateinit var binding: FragmentLoginBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,11 +37,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun setListeners() {
-        binding.btnSignIn.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_loginFragment_to_profileFragment,
-                null
-            )
+        with(binding) {
+            btnSignIn.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_loginFragment_to_profileFragment,
+                    null
+                )
+            }
+            tvRegistration.setOnClickListener {
+                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+            }
         }
     }
 

@@ -14,4 +14,5 @@
     <color name="dark_text_color">#212121</color>
     <color name="grey_text_color">#757575</color>
     <color name="stroke">#bdbdbd</color>
+    <color name="error_color">#FFF44336</color>
 </resources>

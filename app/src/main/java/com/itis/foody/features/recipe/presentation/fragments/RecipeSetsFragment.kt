@@ -16,7 +16,7 @@ import javax.inject.Inject
 class RecipeSetsFragment : Fragment(R.layout.fragment_recipe_sets) {
 
     @Inject
-    private lateinit var resourceManager: ResourceManager
+    lateinit var resourceManager: ResourceManager
     private lateinit var binding: FragmentRecipeSetsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

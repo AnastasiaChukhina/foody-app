@@ -48,4 +48,6 @@
     <string name="ingredient_number_example">1</string>
     <string name="email_notifications_on">Email notifications enabled</string>
     <string name="email_notifications_off">Email notifications disabled</string>
+    <string name="forget_password">Forget password?</string>
+    <string name="already_have_account">Already have an account?</string>
 </resources>

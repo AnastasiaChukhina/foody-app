@@ -6,8 +6,11 @@ import com.itis.foody.common.db.entities.User
 @Dao
 interface UserDao {
 
+    @Query("SELECT * FROM user WHERE email=:email")
+    suspend fun getUserByEmail(email: String): User
+
     @Query("SELECT * FROM user WHERE id = :id")
-    suspend fun getTaskById(id: Int): User?
+    suspend fun getUserById(id: Int): User
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(user: User)

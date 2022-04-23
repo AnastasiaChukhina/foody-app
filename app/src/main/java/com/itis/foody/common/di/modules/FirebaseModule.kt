@@ -1,6 +1,8 @@
 package com.itis.foody.common.di.modules
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -16,5 +18,5 @@ class FirebaseModule {
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideFirebaseDatabase() = Firebase.database
+    fun provideFirebaseDatabase(): FirebaseDatabase = Firebase.database
 }

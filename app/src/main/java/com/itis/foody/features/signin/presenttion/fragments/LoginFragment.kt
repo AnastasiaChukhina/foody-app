@@ -7,13 +7,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
 import com.itis.foody.common.extensions.*
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentLoginBinding
+import com.itis.foody.features.signin.domain.exceptions.FirebaseAuthFailedException
 import com.itis.foody.features.signin.domain.exceptions.UnknownEmailException
 import com.itis.foody.features.signin.domain.models.UserForm
 import com.itis.foody.features.signin.domain.services.SignInValidationService
@@ -111,13 +111,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun initObservers() {
-        viewModel.user.observe(viewLifecycleOwner){
+        viewModel.user.observe(viewLifecycleOwner) {
             it?.fold(onSuccess = {
-                showMessage("Login successfully")
                 navigateToProfile()
             }, onFailure = { e ->
-                when(e.cause) {
+                when (e) {
                     UnknownEmailException::class -> showMessage("Such email is not registered")
+                    FirebaseAuthFailedException::class -> showMessage("Auth failed")
                     else -> showMessage("Login failed. Please, try again.")
                 }
             })
@@ -129,14 +129,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             R.id.action_loginFragment_to_profileFragment,
             null
         )
-    }
-
-    private fun showMessage(message: String) {
-        Snackbar.make(
-            requireActivity().findViewById(R.id.container),
-            message,
-            Snackbar.LENGTH_LONG
-        ).show()
     }
 
     private fun setActionBarAttrs() {

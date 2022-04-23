@@ -1,6 +1,6 @@
 package com.itis.foody.features.signup.domain.usecases
 
-import com.google.firebase.auth.FirebaseUser
+import com.itis.foody.common.db.entities.User
 import com.itis.foody.features.signup.domain.models.UserForm
 import com.itis.foody.features.signup.domain.repositories.SignUpRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,7 +12,7 @@ class RegisterUserUseCase @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(user: UserForm): FirebaseUser {
+    suspend operator fun invoke(user: UserForm): User {
         return withContext(dispatcher) {
             signUpRepository.registerUser(user)
         }

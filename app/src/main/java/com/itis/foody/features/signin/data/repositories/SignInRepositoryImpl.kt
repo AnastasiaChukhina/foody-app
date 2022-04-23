@@ -16,7 +16,7 @@ class SignInRepositoryImpl @Inject constructor(
 ) : SignInRepository {
 
     override suspend fun auth(user: UserForm): FirebaseUser = suspendCoroutine {
-        if (suchEmailAlreadyRegistered(user.email) != true) {
+        try {
             auth.signInWithEmailAndPassword(user.email, user.password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -28,15 +28,8 @@ class SignInRepositoryImpl @Inject constructor(
                         )
                     }
                 }
-        } else it.resumeWithException(UnknownEmailException("UnknownEmail"))
-    }
-
-    private fun suchEmailAlreadyRegistered(email: String): Boolean? {
-        var isExists: Boolean? = null
-        auth.fetchSignInMethodsForEmail(email)
-            .addOnCompleteListener {
-                isExists = it.result.signInMethods?.isNotEmpty()
-            }
-        return isExists
+        } catch (e: Exception) {
+            it.resumeWithException(UnknownEmailException("Unknown email"))
+        }
     }
 }

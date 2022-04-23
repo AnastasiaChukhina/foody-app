@@ -3,11 +3,11 @@ package com.itis.foody.features.signup.presentation.fragments
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
@@ -17,6 +17,7 @@ import com.itis.foody.common.extensions.*
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentRegistrationBinding
 import com.itis.foody.features.signup.domain.exceptions.DifferentPasswordsException
+import com.itis.foody.features.signup.domain.exceptions.SuchEmailAlreadyRegisteredException
 import com.itis.foody.features.signup.domain.models.UserForm
 import com.itis.foody.features.signup.domain.services.SignUpValidationService
 import com.itis.foody.features.signup.presentation.viewModels.SignUpViewModel
@@ -145,29 +146,19 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
 
     private fun initObservers() {
         viewModel.user.observe(viewLifecycleOwner) {
-            it?.fold(onSuccess = {
-                showMessage("Successfully registered")
-                navigateToProfile()
+            it.fold(onSuccess = { user ->
+                navigateToProfile(user.id)
             }, onFailure = {
                 showMessage("Such email is already registered")
             })
         }
     }
 
-    private fun navigateToProfile() {
+    private fun navigateToProfile(id: Int) {
         findNavController().navigate(
             R.id.action_registrationFragment_to_profileFragment,
-            null,
-            null
+            bundleOf(Pair("USER_ID", id))
         )
-    }
-
-    private fun showMessage(message: String) {
-        Snackbar.make(
-            requireActivity().findViewById(R.id.container),
-            message,
-            Snackbar.LENGTH_LONG
-        ).show()
     }
 
     private fun setActionBarAttrs() {

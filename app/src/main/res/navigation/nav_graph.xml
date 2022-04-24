@@ -114,5 +114,8 @@
                 android:id="@+id/action_loginFragment_to_registrationFragment"
                 app:destination="@id/registrationFragment" />
         </fragment>
+        <action
+            android:id="@+id/action_global_nav_app_content"
+            app:destination="@id/nav_app_content" />
     </navigation>
 </navigation>

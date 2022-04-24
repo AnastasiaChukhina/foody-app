@@ -17,7 +17,6 @@ import com.itis.foody.common.extensions.*
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentRegistrationBinding
 import com.itis.foody.features.signup.domain.exceptions.DifferentPasswordsException
-import com.itis.foody.features.signup.domain.exceptions.SuchEmailAlreadyRegisteredException
 import com.itis.foody.features.signup.domain.models.UserForm
 import com.itis.foody.features.signup.domain.services.SignUpValidationService
 import com.itis.foody.features.signup.presentation.viewModels.SignUpViewModel

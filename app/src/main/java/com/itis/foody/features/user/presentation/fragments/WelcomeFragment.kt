@@ -3,25 +3,42 @@ package com.itis.foody.features.user.presentation.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
-import com.itis.foody.databinding.FragmentWelcomeBinding
 import com.itis.foody.common.extensions.hideActionBar
-import com.itis.foody.common.utils.ResourceManager
+import com.itis.foody.databinding.FragmentWelcomeBinding
+import com.itis.foody.features.user.presentation.viewModels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
     private lateinit var binding: FragmentWelcomeBinding
 
+    private val viewModel: UserViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWelcomeBinding.bind(view)
 
+        checkIfAlreadyAuth()
+
+        initObservers()
         setListeners()
         hideActionBar()
+    }
+
+    private fun initObservers() {
+        viewModel.sessionUser.observe(viewLifecycleOwner) {
+            it.fold(onSuccess = {
+                navigateToProfile()
+            }, onFailure = {})
+        }
+    }
+
+    private fun navigateToProfile() {
+        findNavController().navigate(R.id.action_global_nav_app_content)
     }
 
     private fun setListeners() {
@@ -39,5 +56,9 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
                 )
             }
         }
+    }
+
+    private fun checkIfAlreadyAuth() {
+        viewModel.getSessionUser()
     }
 }

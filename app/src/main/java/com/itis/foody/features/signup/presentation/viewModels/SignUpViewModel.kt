@@ -1,5 +1,6 @@
 package com.itis.foody.features.signup.presentation.viewModels
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
+    private val preferences: SharedPreferences,
     private val registerUserUseCase: RegisterUserUseCase
 ) : ViewModel() {
 
@@ -28,9 +30,16 @@ class SignUpViewModel @Inject constructor(
             try {
                 val firebaseUser = registerUserUseCase(user)
                 _user.value = Result.success(firebaseUser)
+                saveSession(firebaseUser.id)
             } catch (e: Exception) {
                 _user.value = Result.failure(e)
             }
         }
+    }
+
+    private fun saveSession(id: Int) {
+        preferences.edit()
+            .putInt("userId", id)
+            .apply()
     }
 }

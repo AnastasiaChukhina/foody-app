@@ -30,7 +30,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun initObservers() {
-        viewModel.user.observe(viewLifecycleOwner){
+        viewModel.user.observe(viewLifecycleOwner) {
             it.fold(onSuccess = {
                 navigateToHelloFragment()
             }, onFailure = {

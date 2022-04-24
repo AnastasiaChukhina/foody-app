@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
-import com.itis.foody.common.extensions.hideBackButton
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.databinding.FragmentProfileBinding
 import com.itis.foody.features.user.presentation.viewModels.UserViewModel
@@ -40,8 +39,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun setActionBarAttrs() {
-        hideBackButton()
-//        setTitle()
+        with(binding) {
+//            toolbar.title = user.username
+        }
     }
 
     private fun setListeners() {

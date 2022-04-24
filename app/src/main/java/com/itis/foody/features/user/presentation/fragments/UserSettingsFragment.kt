@@ -7,9 +7,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.itis.foody.R
-import com.itis.foody.databinding.FragmentUserSettingsBinding
 import com.itis.foody.common.extensions.navigateBack
-import com.itis.foody.common.extensions.setBackButton
+import com.itis.foody.databinding.FragmentUserSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,10 +24,6 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        android.R.id.home -> {
-            navigateBack()
-            true
-        }
         R.id.save -> processUserInfo()
         else -> super.onOptionsItemSelected(item)
     }
@@ -42,7 +37,14 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
     }
 
     private fun setActionBarAttrs() {
-        setBackButton()
-//        setTitle()
+        with(binding) {
+            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            toolbar.setNavigationOnClickListener {
+                navigateBack()
+            }
+            toolbar.setOnMenuItemClickListener {
+                onOptionsItemSelected(it)
+            }
+        }
     }
 }

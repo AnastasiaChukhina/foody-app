@@ -32,11 +32,9 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
     }
 
     private fun setActionBarAttrs() {
-        hideActionBar()
         with(binding) {
             toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
             toolbar.setNavigationOnClickListener {
-                showActionBar()
                 navigateBack()
             }
         }

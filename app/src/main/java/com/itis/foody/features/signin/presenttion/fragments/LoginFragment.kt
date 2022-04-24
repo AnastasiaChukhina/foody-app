@@ -1,7 +1,6 @@
 package com.itis.foody.features.signin.presenttion.fragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -10,7 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
-import com.itis.foody.common.extensions.*
+import com.itis.foody.common.extensions.navigateBack
+import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentLoginBinding
 import com.itis.foody.features.signin.domain.exceptions.FirebaseAuthFailedException
@@ -42,15 +42,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         setListeners()
         setFieldsValidationRules()
         initObservers()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        android.R.id.home -> {
-            hideActionBar()
-            navigateBack()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setListeners() {
@@ -132,8 +123,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun setActionBarAttrs() {
-        showActionBar()
-        setBackButton()
-        setTitle(resourceManager.getString(R.string.log_in))
+        with(binding) {
+            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            toolbar.setNavigationOnClickListener {
+                navigateBack()
+            }
+        }
     }
 }

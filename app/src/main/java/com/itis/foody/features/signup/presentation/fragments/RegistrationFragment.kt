@@ -1,7 +1,6 @@
 package com.itis.foody.features.signup.presentation.fragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
@@ -13,7 +12,8 @@ import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
 import com.itis.foody.common.exceptions.InvalidUsernameException
 import com.itis.foody.common.exceptions.TooShortUsernameException
-import com.itis.foody.common.extensions.*
+import com.itis.foody.common.extensions.navigateBack
+import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentRegistrationBinding
 import com.itis.foody.features.signup.domain.exceptions.DifferentPasswordsException
@@ -44,15 +44,6 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         setListeners()
         setFieldsValidationRules()
         initObservers()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        android.R.id.home -> {
-            hideActionBar()
-            navigateBack()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setListeners() {
@@ -161,8 +152,11 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
     }
 
     private fun setActionBarAttrs() {
-        showActionBar()
-        setBackButton()
-        setTitle(resourceManager.getString(R.string.registration))
+        with(binding) {
+            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            toolbar.setNavigationOnClickListener {
+                navigateBack()
+            }
+        }
     }
 }

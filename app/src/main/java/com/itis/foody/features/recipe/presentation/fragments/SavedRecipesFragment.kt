@@ -1,12 +1,10 @@
 package com.itis.foody.features.recipe.presentation.fragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.itis.foody.R
 import com.itis.foody.common.extensions.navigateBack
-import com.itis.foody.common.extensions.setBackButton
 import com.itis.foody.databinding.FragmentSavedRecipesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,16 +20,12 @@ class SavedRecipesFragment : Fragment(R.layout.fragment_saved_recipes) {
         setActionBarAttrs()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        android.R.id.home -> {
-            navigateBack()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
-
     private fun setActionBarAttrs() {
-        setBackButton()
-//        setTitle()
+        with(binding) {
+            toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            toolbar.setNavigationOnClickListener {
+                navigateBack()
+            }
+        }
     }
 }

@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
+import com.itis.foody.common.extensions.navigateBack
 import com.itis.foody.databinding.FragmentDetailRecipeBinding
-import com.itis.foody.common.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

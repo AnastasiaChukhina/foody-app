@@ -19,9 +19,6 @@ class SignUpViewModel @Inject constructor(
     private val registerUserUseCase: RegisterUserUseCase
 ) : ViewModel() {
 
-    private var _firebaseUser: MutableLiveData<Result<FirebaseUser>> = MutableLiveData()
-    val firebaseUser: LiveData<Result<FirebaseUser>> = _firebaseUser
-
     private var _user: MutableLiveData<Result<User>> = MutableLiveData()
     val user: LiveData<Result<User>> = _user
 

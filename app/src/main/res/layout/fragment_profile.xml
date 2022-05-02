@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppToolbar"
-            app:title="@string/username_example"/>
+            app:title="@string/username_example" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -39,6 +39,8 @@
         android:id="@+id/tv_email"
         style="@style/TextViewProfile"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="@string/email_example"
         android:textColor="@color/grey_text_color"
         app:layout_constraintEnd_toStartOf="@+id/gl_vert_end"
@@ -49,6 +51,7 @@
         android:id="@+id/cl_account_settings"
         style="@style/ConstraintLayoutSettings"
         android:layout_marginTop="48dp"
+        android:background="?selectableItemBackground"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/gl_vert_end"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"
@@ -94,6 +97,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_logout"
         style="@style/ConstraintLayoutSettings"
+        android:background="?selectableItemBackground"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/gl_vert_end"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"
@@ -139,6 +143,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_notifications_settings"
         style="@style/ConstraintLayoutSettings"
+        android:background="?selectableItemBackground"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@id/gl_vert_end"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"

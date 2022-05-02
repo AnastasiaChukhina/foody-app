@@ -5,5 +5,6 @@ import com.itis.foody.common.db.entities.User
 
 interface UserRepository {
     suspend fun getUser(id: Int): User
+    suspend fun changeUserData(username: String, email: String, id: Int): User
     suspend fun logout(): FirebaseUser?
 }

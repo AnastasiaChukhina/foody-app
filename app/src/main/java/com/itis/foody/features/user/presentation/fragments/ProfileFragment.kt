@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var user: User
 
     private val viewModel: UserViewModel by viewModels()
 
@@ -25,9 +24,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileBinding.bind(view)
 
-        getUser()
         setListeners()
         initObservers()
+        getUser()
     }
 
     private fun getUser() {
@@ -61,7 +60,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private fun setActionBarAttrs(username: String) {
         with(binding) {
-            toolbar.title = user.username
+            toolbar.title = username
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.itis.foody.common.db.entities.User
 import com.itis.foody.features.user.domain.exceptions.SessionNotAvailableException
+import com.itis.foody.features.user.domain.usecases.UpdateUserDataUseCase
 import com.itis.foody.features.user.domain.usecases.GetUserUseCase
 import com.itis.foody.features.user.domain.usecases.LogoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val preferences: SharedPreferences,
+    private val updateUserDataUseCase: UpdateUserDataUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
@@ -27,14 +29,29 @@ class UserViewModel @Inject constructor(
     private var _sessionUser: MutableLiveData<Result<User>> = MutableLiveData()
     val sessionUser: LiveData<Result<User>> = _sessionUser
 
+    private var _updatedUser: MutableLiveData<Result<User>> = MutableLiveData()
+    val updatedUser: LiveData<Result<User>> = _updatedUser
+
     fun getSessionUser() {
         viewModelScope.launch {
             try {
-                val id = getSessionId()
+                val id = getSessionUserId()
                 val user = getUserUseCase(id)
                 _sessionUser.value = Result.success(user)
             } catch (e: Exception) {
                 _sessionUser.value = Result.failure(e)
+            }
+        }
+    }
+
+    fun changeUserData(username: String, email: String) {
+        viewModelScope.launch {
+            try {
+                val id = getSessionUserId()
+                val user = updateUserDataUseCase(username, email, id)
+                _updatedUser.value = Result.success(user)
+            } catch (e: Exception) {
+                _updatedUser.value = Result.failure(e)
             }
         }
     }
@@ -51,7 +68,7 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    private fun getSessionId(): Int {
+    private fun getSessionUserId(): Int {
         val id = preferences.getInt("userId", -1)
         if (id != -1) return id
         else throw SessionNotAvailableException("SessionNotAvailable")

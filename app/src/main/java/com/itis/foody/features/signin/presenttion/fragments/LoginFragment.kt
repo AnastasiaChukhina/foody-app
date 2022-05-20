@@ -106,13 +106,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             it?.fold(onSuccess = {
                 hideLoading()
                 navigateToProfile()
-            }, onFailure = { e ->
+            }, onFailure = {
                 hideLoading()
-                when (e) {
-                    UnknownEmailException::class -> showMessage("Such email is not registered")
-                    FirebaseAuthFailedException::class -> showMessage("Auth failed")
-                    else -> showMessage("Login failed. Please, try again.")
-                }
+                showMessage("Authentication failed.")
             })
         }
     }

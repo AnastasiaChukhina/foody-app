@@ -136,9 +136,9 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
 
     private fun initObservers() {
         viewModel.user.observe(viewLifecycleOwner) {
-            it.fold(onSuccess = { user ->
+            it.fold(onSuccess = {
                 hideLoading()
-                navigateToProfile(user.id)
+                navigateToProfile()
             }, onFailure = {
                 hideLoading()
                 showMessage("Such email is already registered")
@@ -146,10 +146,9 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         }
     }
 
-    private fun navigateToProfile(id: Int) {
+    private fun navigateToProfile() {
         findNavController().navigate(
-            R.id.action_registrationFragment_to_profileFragment,
-            bundleOf(Pair("USER_ID", id))
+            R.id.action_registrationFragment_to_profileFragment
         )
     }
 

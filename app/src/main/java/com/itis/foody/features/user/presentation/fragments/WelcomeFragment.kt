@@ -32,9 +32,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         viewModel.sessionUser.observe(viewLifecycleOwner) {
             it.fold(onSuccess = {
                 navigateToProfile()
-            }, onFailure = {
-                Log.e("SESSION", "Problems with getting user session.")
-            })
+            }, onFailure = {})
         }
     }
 

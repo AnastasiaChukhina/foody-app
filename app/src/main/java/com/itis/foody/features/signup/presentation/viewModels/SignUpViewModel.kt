@@ -1,11 +1,10 @@
 package com.itis.foody.features.signup.presentation.viewModels
 
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.itis.foody.common.db.entities.User
+import com.google.firebase.auth.FirebaseUser
 import com.itis.foody.features.signup.domain.models.UserForm
 import com.itis.foody.features.signup.domain.usecases.RegisterUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,28 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val preferences: SharedPreferences,
     private val registerUserUseCase: RegisterUserUseCase
 ) : ViewModel() {
 
-    private var _user: MutableLiveData<Result<User>> = MutableLiveData()
-    val user: LiveData<Result<User>> = _user
+    private var _user: MutableLiveData<Result<FirebaseUser>> = MutableLiveData()
+    val user: LiveData<Result<FirebaseUser>> = _user
 
     fun registerUser(user: UserForm) {
         viewModelScope.launch {
-            try {
-                val firebaseUser = registerUserUseCase(user)
-                _user.value = Result.success(firebaseUser)
-                saveSession(firebaseUser.id)
-            } catch (e: Exception) {
-                _user.value = Result.failure(e)
+            kotlin.runCatching {
+                registerUserUseCase(user)
+            }.onSuccess {
+                _user.value = Result.success(it)
+            }.onFailure {
+                _user.value = Result.failure(it)
             }
         }
-    }
-
-    private fun saveSession(id: Int) {
-        preferences.edit()
-            .putInt("userId", id)
-            .apply()
     }
 }

@@ -1,13 +1,13 @@
 package com.itis.foody.common.di.modules
 
-import com.itis.foody.common.db.entities.User
+import com.itis.foody.common.db.User
+import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.data.mappers.*
 import com.itis.foody.features.recipe.data.response.popularRecipes.PopularRecipesResponse
 import com.itis.foody.features.recipe.data.response.recipeInfo.RecipeInfoResponse
 import com.itis.foody.features.recipe.data.response.searchByIngredient.RecipeListByIngredientResponse
 import com.itis.foody.features.recipe.data.response.searchByName.RecipeListByNameResponse
 import com.itis.foody.features.recipe.data.response.similarRecipes.SimilarRecipesResponse
-import com.itis.foody.features.recipe.domain.mappers.ModelMapper
 import com.itis.foody.features.recipe.domain.models.RecipeDetails
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
 import com.itis.foody.features.user.data.mappers.UserDataMapper

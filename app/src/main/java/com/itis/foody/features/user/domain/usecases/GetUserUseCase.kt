@@ -11,9 +11,9 @@ class GetUserUseCase @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(id: Int): Account {
+    suspend operator fun invoke(): Account {
         return withContext(dispatcher) {
-            userRepository.getUser(id)
+            userRepository.getUser()
         }
     }
 }

@@ -36,11 +36,6 @@ android {
     buildFeatures {
         viewBinding true
     }
-    kapt{
-        arguments{
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
-    }
 }
 
 dependencies {
@@ -82,8 +77,9 @@ dependencies {
     // region Firebase
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
-    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.4'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
+    implementation 'com.google.firebase:firebase-storage-ktx'
     // endregion
 
     // region Room

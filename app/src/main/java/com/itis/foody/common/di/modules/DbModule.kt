@@ -1,11 +1,12 @@
 package com.itis.foody.common.di.modules
 
-import android.content.Context
-import com.itis.foody.common.db.AppDatabase
+import com.google.firebase.database.DatabaseReference
+import com.itis.foody.common.di.modules.qualifiers.RecipeSetsReference
+import com.itis.foody.common.di.modules.qualifiers.RecipesReference
+import com.itis.foody.common.di.modules.qualifiers.UsersReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -13,15 +14,14 @@ import dagger.hilt.components.SingletonComponent
 class DbModule {
 
     @Provides
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
-        AppDatabase.invoke(context) as AppDatabase
+    @UsersReference
+    fun providesUsersReference(database: DatabaseReference) = database.child("users")
 
     @Provides
-    fun provideUserDao(database: AppDatabase) = database.userDao()
+    @RecipeSetsReference
+    fun providesRecipeSetsReference(database: DatabaseReference) = database.child("recipeSets")
 
     @Provides
-    fun provideRecipeSetDao(database: AppDatabase) = database.recipeSetDao()
-
-    @Provides
-    fun provideRecipeDao(database: AppDatabase) = database.recipeDao()
+    @RecipesReference
+    fun providesRecipesReference(database: DatabaseReference) = database.child("recipes")
 }

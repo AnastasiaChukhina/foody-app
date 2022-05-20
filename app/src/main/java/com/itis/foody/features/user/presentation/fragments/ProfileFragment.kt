@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.itis.foody.R
-import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.databinding.FragmentProfileBinding
 import com.itis.foody.features.user.domain.models.Account

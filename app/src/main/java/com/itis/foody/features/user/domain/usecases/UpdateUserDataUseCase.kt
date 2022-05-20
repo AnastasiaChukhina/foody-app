@@ -11,9 +11,9 @@ class UpdateUserDataUseCase @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(username: String, email: String, id: Int): Account {
+    suspend operator fun invoke(username: String, email: String, password: String): Account {
         return withContext(dispatcher) {
-            userRepository.changeUserData(username, email, id)
+            userRepository.changeUserData(username, email, password)
         }
     }
 }

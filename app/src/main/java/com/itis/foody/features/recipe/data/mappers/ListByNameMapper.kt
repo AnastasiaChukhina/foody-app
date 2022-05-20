@@ -1,8 +1,7 @@
 package com.itis.foody.features.recipe.data.mappers
 
-import android.util.Log
 import com.itis.foody.features.recipe.data.response.searchByName.RecipeListByNameResponse
-import com.itis.foody.features.recipe.domain.mappers.ModelMapper
+import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
 import javax.inject.Inject
 

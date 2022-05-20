@@ -1,23 +1,21 @@
 package com.itis.foody.features.user.presentation.viewModels
 
-import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.itis.foody.features.user.domain.exceptions.SessionNotAvailableException
 import com.itis.foody.features.user.domain.models.Account
-import com.itis.foody.features.user.domain.usecases.UpdateUserDataUseCase
 import com.itis.foody.features.user.domain.usecases.GetUserUseCase
 import com.itis.foody.features.user.domain.usecases.LogoutUseCase
+import com.itis.foody.features.user.domain.usecases.UpdateUserDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    private val preferences: SharedPreferences,
     private val updateUserDataUseCase: UpdateUserDataUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getUserUseCase: GetUserUseCase
@@ -34,49 +32,37 @@ class UserViewModel @Inject constructor(
 
     fun getSessionUser() {
         viewModelScope.launch {
-            try {
-                val id = getSessionUserId()
-                val user = getUserUseCase(id)
-                _sessionUser.value = Result.success(user)
-            } catch (e: Exception) {
-                _sessionUser.value = Result.failure(e)
+            kotlin.runCatching {
+                getUserUseCase()
+            }.onSuccess {
+                _sessionUser.value = Result.success(it)
+            }.onFailure {
+                _sessionUser.value = Result.failure(it)
             }
         }
     }
 
-    fun changeUserData(username: String, email: String) {
+    fun changeUserData(username: String, email: String, password: String) {
         viewModelScope.launch {
-            try {
-                val id = getSessionUserId()
-                val user = updateUserDataUseCase(username, email, id)
-                _updatedUser.value = Result.success(user)
-            } catch (e: Exception) {
-                _updatedUser.value = Result.failure(e)
+            kotlin.runCatching {
+                updateUserDataUseCase(username, email, password)
+            }.onSuccess {
+                _updatedUser.value = Result.success(it)
+            }.onFailure {
+                _updatedUser.value = Result.failure(it)
             }
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            try {
-                val firebaseUser = logoutUseCase()
-                _user.value = Result.success(firebaseUser)
-                removeSession()
-            } catch (e: Exception) {
-                _user.value = Result.failure(e)
+            kotlin.runCatching {
+                logoutUseCase()
+            }.onSuccess {
+                _user.value = Result.success(it)
+            }.onFailure {
+                _user.value = Result.failure(it)
             }
         }
-    }
-
-    private fun getSessionUserId(): Int {
-        val id = preferences.getInt("userId", -1)
-        if (id != -1) return id
-        else throw SessionNotAvailableException("Session Not Available")
-    }
-
-    private fun removeSession() {
-        preferences.edit()
-            .remove("userId")
-            .apply()
     }
 }

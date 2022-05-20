@@ -5,10 +5,14 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+
+private const val DB_URL = "https://foody-627d7-default-rtdb.europe-west1.firebasedatabase.app/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -18,5 +22,8 @@ class FirebaseModule {
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideFirebaseDatabase(): FirebaseDatabase = Firebase.database
+    fun provideFirebaseDatabase(): DatabaseReference = Firebase.database(DB_URL).reference
+
+    @Provides
+    fun providesFirebaseStorage(): FirebaseStorage = Firebase.storage
 }

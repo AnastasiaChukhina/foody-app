@@ -1,4 +1,4 @@
-package com.itis.foody.common.db.entities
+package com.itis.foody.common.db
 
 data class RecipeStep(
     val number: Int,

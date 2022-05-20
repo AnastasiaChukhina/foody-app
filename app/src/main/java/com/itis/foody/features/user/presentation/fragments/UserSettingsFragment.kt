@@ -5,6 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.itis.foody.R
@@ -84,8 +86,35 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
     private fun processUserInfo() {
         val email = binding.etEmail.text.toString()
         val username = binding.etUsername.text.toString()
-        if (isEmailValid(email) && isUsernameValid(username)) {
-            viewModel.changeUserData(username, email)
+        if (isEmailValid(email) && isUsernameValid(username) &&
+            (email != user.email || username != user.username)
+        ) {
+            showPasswordAlertDialog(username, email)
+        }
+    }
+
+    private fun showPasswordAlertDialog(username: String, email: String) {
+        val view = layoutInflater.inflate(R.layout.dialog_password, null)
+        val text = view.findViewById<EditText>(R.id.et_pass)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Enter your password:")
+            .setView(view)
+            .setPositiveButton("Send") { _, _ ->
+                checkInput(username, email, text.text.toString())
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun checkInput(username: String, email: String, password: String) {
+        if(password.isNotBlank()) try {
+            viewModel.changeUserData(username, email, password)
+        } catch (e: Exception) {
+            showMessage("Wrong password")
         }
     }
 

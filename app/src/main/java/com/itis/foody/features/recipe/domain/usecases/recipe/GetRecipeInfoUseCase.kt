@@ -1,4 +1,4 @@
-package com.itis.foody.features.recipe.domain.usecases.search
+package com.itis.foody.features.recipe.domain.usecases.recipe
 
 import com.itis.foody.features.recipe.domain.models.RecipeDetails
 import com.itis.foody.features.recipe.domain.repositories.RecipeSearchRepository

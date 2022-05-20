@@ -4,7 +4,7 @@ import com.itis.foody.features.recipe.data.response.recipeInfo.AnalyzedInstructi
 import com.itis.foody.features.recipe.data.response.recipeInfo.ExtendedIngredient
 import com.itis.foody.features.recipe.data.response.recipeInfo.NutrientX
 import com.itis.foody.features.recipe.data.response.recipeInfo.RecipeInfoResponse
-import com.itis.foody.features.recipe.domain.mappers.ModelMapper
+import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.domain.models.Ingredient
 import com.itis.foody.features.recipe.domain.models.NutrientsInfo
 import com.itis.foody.features.recipe.domain.models.RecipeDetails

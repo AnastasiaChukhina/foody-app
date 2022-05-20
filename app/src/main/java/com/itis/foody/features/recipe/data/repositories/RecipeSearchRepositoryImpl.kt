@@ -1,13 +1,9 @@
 package com.itis.foody.features.recipe.data.repositories
 
 import com.itis.foody.features.recipe.data.api.Api
-import com.itis.foody.features.recipe.data.response.popularRecipes.PopularRecipesResponse
-import com.itis.foody.features.recipe.data.response.recipeInfo.RecipeInfoResponse
 import com.itis.foody.features.recipe.data.response.searchByIngredient.RecipeListByIngredientResponse
 import com.itis.foody.features.recipe.data.response.searchByName.RecipeListByNameResponse
-import com.itis.foody.features.recipe.data.response.similarRecipes.SimilarRecipesResponse
-import com.itis.foody.features.recipe.domain.mappers.ModelMapper
-import com.itis.foody.features.recipe.domain.models.RecipeDetails
+import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
 import com.itis.foody.features.recipe.domain.repositories.RecipeSearchRepository
 import javax.inject.Inject

@@ -1,9 +1,10 @@
-package com.itis.foody.features.recipe.domain.usecases.search
+package com.itis.foody.features.recipe.domain.usecases.recipe
 
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class GetSimilarRecipesUseCase @Inject constructor(
+class GetPopularRecipesByTagUseCase @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) {
+
 }

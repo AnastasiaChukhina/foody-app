@@ -3,6 +3,7 @@ package com.itis.foody.common.di.modules
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.itis.foody.features.recipe.domain.utils.RecipeDataConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,9 @@ class AppModule {
     fun provideGson() = Gson()
 
     @Provides
-    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("user", Context.MODE_PRIVATE)
-    }
+    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences("user", Context.MODE_PRIVATE)
+
+    @Provides
+    fun providesImageUrlBuilder() = RecipeDataConverter()
 }

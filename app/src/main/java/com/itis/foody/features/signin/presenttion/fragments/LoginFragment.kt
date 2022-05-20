@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
-import com.itis.foody.common.extensions.navigateBack
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentLoginBinding
@@ -78,6 +77,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun authUser(user: UserForm) {
+        showLoading()
         viewModel.authUser(user)
     }
 
@@ -104,8 +104,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun initObservers() {
         viewModel.user.observe(viewLifecycleOwner) {
             it?.fold(onSuccess = {
+                hideLoading()
                 navigateToProfile()
             }, onFailure = { e ->
+                hideLoading()
                 when (e) {
                     UnknownEmailException::class -> showMessage("Such email is not registered")
                     FirebaseAuthFailedException::class -> showMessage("Auth failed")
@@ -117,16 +119,23 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun navigateToProfile() {
         findNavController().navigate(
-            R.id.action_loginFragment_to_profileFragment,
-            null
+            R.id.action_loginFragment_to_profileFragment
         )
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun setActionBarAttrs() {
         with(binding) {
             toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
             toolbar.setNavigationOnClickListener {
-                navigateBack()
+                findNavController().navigate(R.id.action_loginFragment_to_welcomeFragment)
             }
         }
     }

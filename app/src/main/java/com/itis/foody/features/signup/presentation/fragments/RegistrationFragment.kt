@@ -12,7 +12,6 @@ import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
 import com.itis.foody.common.exceptions.InvalidUsernameException
 import com.itis.foody.common.exceptions.TooShortUsernameException
-import com.itis.foody.common.extensions.navigateBack
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentRegistrationBinding
@@ -98,6 +97,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
     }
 
     private fun registerUser(userForm: UserForm) {
+        showLoading()
         viewModel.registerUser(userForm)
     }
 
@@ -137,8 +137,10 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
     private fun initObservers() {
         viewModel.user.observe(viewLifecycleOwner) {
             it.fold(onSuccess = { user ->
+                hideLoading()
                 navigateToProfile(user.id)
             }, onFailure = {
+                hideLoading()
                 showMessage("Such email is already registered")
             })
         }
@@ -151,11 +153,19 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         )
     }
 
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
+
     private fun setActionBarAttrs() {
         with(binding) {
             toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
             toolbar.setNavigationOnClickListener {
-                navigateBack()
+                findNavController().navigate(R.id.action_registrationFragment_to_welcomeFragment)
             }
         }
     }

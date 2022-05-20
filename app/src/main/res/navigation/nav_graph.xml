@@ -28,18 +28,21 @@
         </fragment>
         <fragment
             android:id="@+id/searchFragment"
-            android:name="com.itis.foody.features.search.presentation.fragments.SearchFragment"
+            android:name="com.itis.foody.features.recipe.presentation.search.fragments.SearchFragment"
             android:label="SearchFragment">
             <action
                 android:id="@+id/action_searchFragment_to_detailRecipeFragment"
                 app:destination="@id/nav_detailed_recipe" />
+            <action
+                android:id="@+id/action_searchFragment_to_recipeListFragment"
+                app:destination="@id/recipeListFragment" />
         </fragment>
         <navigation
             android:id="@+id/nav_detailed_recipe"
             app:startDestination="@id/detailRecipeFragment">
             <fragment
                 android:id="@+id/detailRecipeFragment"
-                android:name="com.itis.foody.features.recipe.presentation.fragments.DetailRecipeFragment"
+                android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.DetailRecipeFragment"
                 android:label="DetailRecipeFragment">
                 <action
                     android:id="@+id/action_detailRecipeFragment_to_recipeInfoDialogFragment"
@@ -47,15 +50,18 @@
             </fragment>
             <dialog
                 android:id="@+id/recipeInfoDialogFragment"
-                android:name="com.itis.foody.features.recipe.presentation.fragments.RecipeInfoDialogFragment"
+                android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.RecipeInfoDialogFragment"
                 android:label="RecipeInfoDialogFragment" />
+            <action
+                android:id="@+id/action_global_recipeListFragment"
+                app:destination="@id/recipeListFragment" />
         </navigation>
         <navigation
             android:id="@+id/nav_recipe_set"
             app:startDestination="@id/recipeSetsFragment">
             <fragment
                 android:id="@+id/recipeSetsFragment"
-                android:name="com.itis.foody.features.recipe.presentation.fragments.RecipeSetsFragment"
+                android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.RecipeSetsFragment"
                 android:label="RecipeSetsFragment">
                 <action
                     android:id="@+id/action_recipeSetsFragment_to_savedRecipesFragment"
@@ -63,7 +69,7 @@
             </fragment>
             <fragment
                 android:id="@+id/savedRecipesFragment"
-                android:name="com.itis.foody.features.recipe.presentation.fragments.SavedRecipesFragment"
+                android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.SavedRecipesFragment"
                 android:label="SavedRecipesFragment">
                 <action
                     android:id="@+id/action_savedRecipesFragment_to_detailRecipeFragment"
@@ -78,6 +84,10 @@
             android:id="@+id/notificationsSettingsFragment"
             android:name="com.itis.foody.features.user.presentation.fragments.NotificationsSettingsFragment"
             android:label="NotificationsSettingsFragment" />
+        <fragment
+            android:id="@+id/recipeListFragment"
+            android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.RecipeListFragment"
+            android:label="RecipeListFragment" />
     </navigation>
     <navigation android:id="@+id/nav_auth"
         app:startDestination="@id/welcomeFragment">
@@ -102,6 +112,9 @@
             <action
                 android:id="@+id/action_registrationFragment_to_loginFragment"
                 app:destination="@id/loginFragment" />
+            <action
+                android:id="@+id/action_registrationFragment_to_welcomeFragment"
+                app:destination="@id/welcomeFragment" />
         </fragment>
         <fragment
             android:id="@+id/loginFragment"
@@ -113,6 +126,9 @@
             <action
                 android:id="@+id/action_loginFragment_to_registrationFragment"
                 app:destination="@id/registrationFragment" />
+            <action
+                android:id="@+id/action_loginFragment_to_welcomeFragment"
+                app:destination="@id/welcomeFragment" />
         </fragment>
         <action
             android:id="@+id/action_global_nav_app_content"

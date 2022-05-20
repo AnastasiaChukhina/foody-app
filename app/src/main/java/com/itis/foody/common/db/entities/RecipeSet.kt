@@ -9,5 +9,6 @@ data class RecipeSet(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "recipeSetId")
     var id: Int,
-    var userId: Int
+    var userId: Int,
+    var name: String
 )

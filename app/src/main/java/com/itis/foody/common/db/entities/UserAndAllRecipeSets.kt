@@ -6,6 +6,10 @@ import androidx.room.Relation
 data class UserAndAllRecipeSets(
     @Embedded
     var user: User,
-    @Relation(parentColumn = "id", entityColumn = "userId", entity = RecipeSet::class)
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "recipeSetId",
+        entity = RecipeSet::class
+    )
     var recipeSets: List<RecipeSet>
 )

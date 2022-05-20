@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
 import com.itis.foody.common.db.entities.User
 import com.itis.foody.features.signup.domain.models.UserForm
 import com.itis.foody.features.signup.domain.usecases.RegisterUserUseCase

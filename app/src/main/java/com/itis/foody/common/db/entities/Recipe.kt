@@ -9,8 +9,11 @@ data class Recipe(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "recipeId")
     var id: Int,
+    var apiId: Int,
     var title: String,
-    var description: String,
+    var summary: String,
     var ingredients: List<Ingredient>,
-    var nutrientsInfo: NutrientsInfo
+    var nutrientsInfo: NutrientsInfo,
+    var image: String,
+    var recipeSteps: List<RecipeStep>
 )

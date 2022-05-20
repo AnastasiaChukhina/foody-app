@@ -8,14 +8,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.itis.foody.R
-import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidUsernameException
 import com.itis.foody.common.extensions.navigateBack
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.databinding.FragmentUserSettingsBinding
+import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.presentation.viewModels.UserViewModel
-import com.itis.foody.features.user.service.UserDataValidationService
+import com.itis.foody.features.user.domain.service.UserDataValidationService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
 
     private lateinit var binding: FragmentUserSettingsBinding
-    private lateinit var user: User
+    private lateinit var user: Account
 
     @Inject
     lateinit var userDataValidationService: UserDataValidationService
@@ -70,7 +70,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         }
     }
 
-    private fun updateUI(user: User) {
+    private fun updateUI(user: Account) {
         with(binding) {
             etUsername.setText(user.username)
             etEmail.setText(user.email)

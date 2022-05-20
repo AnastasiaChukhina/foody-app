@@ -3,7 +3,6 @@ package com.itis.foody.features.signup.data.repositories
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
 import com.itis.foody.common.db.dao.UserDao
 import com.itis.foody.common.db.entities.User
 import com.itis.foody.features.signup.domain.exceptions.RegistrationFailedException
@@ -26,7 +25,15 @@ class SignUpRepositoryImpl @Inject constructor(
     }
 
     private suspend fun saveToDatabase(user: UserForm): User {
-        userDao.save(User(0, user.username, user.email, user.password))
+        userDao.save(
+            User(
+                0,
+                user.username,
+                user.email,
+                user.password,
+                null
+            )
+        )
         return userDao.getUserByEmail(user.email)
     }
 

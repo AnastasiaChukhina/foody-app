@@ -1,12 +1,12 @@
 package com.itis.foody.features.user.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
-import com.itis.foody.common.extensions.hideActionBar
 import com.itis.foody.databinding.FragmentWelcomeBinding
 import com.itis.foody.features.user.presentation.viewModels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,37 +22,38 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWelcomeBinding.bind(view)
 
-        checkIfAlreadyAuth()
-
         initObservers()
         setListeners()
-        hideActionBar()
+
+        checkIfAlreadyAuth()
     }
 
     private fun initObservers() {
         viewModel.sessionUser.observe(viewLifecycleOwner) {
             it.fold(onSuccess = {
                 navigateToProfile()
-            }, onFailure = {})
+            }, onFailure = {
+                Log.e("SESSION", "Problems with getting user session.")
+            })
         }
     }
 
     private fun navigateToProfile() {
-        findNavController().navigate(R.id.action_global_nav_app_content)
+        findNavController().navigate(
+            R.id.action_global_nav_app_content
+        )
     }
 
     private fun setListeners() {
         with(binding) {
             btnSignIn.setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_welcomeFragment_to_loginFragment,
-                    null
+                    R.id.action_welcomeFragment_to_loginFragment
                 )
             }
             btnSignUp.setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_welcomeFragment_to_registrationFragment,
-                    null
+                    R.id.action_welcomeFragment_to_registrationFragment
                 )
             }
         }

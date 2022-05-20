@@ -1,6 +1,7 @@
 package com.itis.foody.features.signin.presenttion.viewModels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,10 +26,11 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val firebaseUser = authUserUseCase(user)
-                _user.value = Result.success(firebaseUser)
+                Log.e("AUTH_USER", firebaseUser.toString())
                 firebaseUser?.id?.let {
                     saveSession(it)
                 }
+                _user.value = Result.success(firebaseUser)
             } catch (e: Exception) {
                 _user.value = Result.failure(e)
             }

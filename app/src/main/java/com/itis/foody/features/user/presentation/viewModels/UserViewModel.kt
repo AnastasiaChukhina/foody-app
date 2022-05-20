@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.itis.foody.common.db.entities.User
 import com.itis.foody.features.user.domain.exceptions.SessionNotAvailableException
+import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.domain.usecases.UpdateUserDataUseCase
 import com.itis.foody.features.user.domain.usecases.GetUserUseCase
 import com.itis.foody.features.user.domain.usecases.LogoutUseCase
@@ -26,11 +26,11 @@ class UserViewModel @Inject constructor(
     private var _user: MutableLiveData<Result<FirebaseUser?>> = MutableLiveData()
     val user: LiveData<Result<FirebaseUser?>> = _user
 
-    private var _sessionUser: MutableLiveData<Result<User>> = MutableLiveData()
-    val sessionUser: LiveData<Result<User>> = _sessionUser
+    private var _sessionUser: MutableLiveData<Result<Account>> = MutableLiveData()
+    val sessionUser: LiveData<Result<Account>> = _sessionUser
 
-    private var _updatedUser: MutableLiveData<Result<User>> = MutableLiveData()
-    val updatedUser: LiveData<Result<User>> = _updatedUser
+    private var _updatedUser: MutableLiveData<Result<Account>> = MutableLiveData()
+    val updatedUser: LiveData<Result<Account>> = _updatedUser
 
     fun getSessionUser() {
         viewModelScope.launch {
@@ -71,7 +71,7 @@ class UserViewModel @Inject constructor(
     private fun getSessionUserId(): Int {
         val id = preferences.getInt("userId", -1)
         if (id != -1) return id
-        else throw SessionNotAvailableException("SessionNotAvailable")
+        else throw SessionNotAvailableException("Session Not Available")
     }
 
     private fun removeSession() {

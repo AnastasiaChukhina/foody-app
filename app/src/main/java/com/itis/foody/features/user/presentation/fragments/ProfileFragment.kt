@@ -2,14 +2,17 @@ package com.itis.foody.features.user.presentation.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.itis.foody.R
 import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.databinding.FragmentProfileBinding
+import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.presentation.viewModels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +45,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             })
         }
         viewModel.sessionUser.observe(viewLifecycleOwner){
-            it.fold(onSuccess = { user->
+            it.fold(onSuccess = { user ->
                 updateUI(user)
                 setActionBarAttrs(user.username)
             }, onFailure = {
@@ -51,10 +54,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
-    private fun updateUI(user: User) {
+    private fun updateUI(user: Account) {
         with(binding){
             tvEmail.text = user.email
             tvUsername.text = user.username
+            user.profileImage?.let {
+                ivAccount.load(it)
+            }
         }
     }
 
@@ -71,8 +77,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
             clAccountSettings.setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_profileFragment_to_userSettingsFragment,
-                    null
+                    R.id.action_profileFragment_to_userSettingsFragment
                 )
             }
             clNotificationsSettings.setOnClickListener {

@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.itis.foody.common.db.converters.ImageConverter
 import com.itis.foody.common.db.converters.IngredientConverter
 import com.itis.foody.common.db.converters.NutrientsInfoConverter
+import com.itis.foody.common.db.converters.RecipeStepConverter
 import com.itis.foody.common.db.dao.RecipeDao
 import com.itis.foody.common.db.dao.RecipeSetDao
 import com.itis.foody.common.db.dao.UserDao
@@ -17,10 +19,15 @@ import com.itis.foody.common.db.entities.User
 
 @Database(
     entities = [User::class, RecipeSet::class, Recipe::class, RecipeSetRecipeCrossRef::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
-@TypeConverters(IngredientConverter::class, NutrientsInfoConverter::class)
+@TypeConverters(
+    IngredientConverter::class,
+    NutrientsInfoConverter::class,
+    ImageConverter::class,
+    RecipeStepConverter::class
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

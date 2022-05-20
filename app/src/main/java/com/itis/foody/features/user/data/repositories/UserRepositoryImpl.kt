@@ -6,37 +6,27 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.itis.foody.common.db.dao.UserDao
 import com.itis.foody.common.db.entities.User
+import com.itis.foody.features.recipe.domain.mappers.ModelMapper
+import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val mapper: ModelMapper<User, Account>
 ) : UserRepository {
 
-    override suspend fun getUser(id: Int): User = userDao.getUserById(id)
+    override suspend fun getUser(id: Int): Account = mapper.map(getDbUser(id))
 
-    override suspend fun changeUserData(username: String, email: String, id: Int): User {
-        val user = getUser(id)
-        return processUserData(username, email, user)
+    override suspend fun changeUserData(username: String, email: String, id: Int): Account {
+        val user = getDbUser(id)
+        return mapper.map(processUserData(username, email, user))
     }
 
     override suspend fun logout(): FirebaseUser? {
         auth.signOut()
         return auth.currentUser
-    }
-
-    private suspend fun processUserData(username: String, email: String, user: User): User {
-        if (username != user.username) {
-            changeUsername(username, user)
-            user.username = username
-        }
-        if (email != user.email) {
-            verifyAndUpdate(email, user)
-            updateEmailInDatabase(email, user)
-            user.password = email
-        }
-        return user
     }
 
     private suspend fun changeUsername(username: String, user: User) {
@@ -67,8 +57,23 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    private suspend fun processUserData(username: String, email: String, user: User): User {
+        if (username != user.username) {
+            changeUsername(username, user)
+            user.username = username
+        }
+        if (email != user.email) {
+            verifyAndUpdate(email, user)
+            updateEmailInDatabase(email, user)
+            user.email = email
+        }
+        return user
+    }
+
     private suspend fun updateEmailInDatabase(email: String, user: User) {
         user.email = email
         userDao.updateUser(user)
     }
+
+    private suspend fun getDbUser(id: Int): User = userDao.getUserById(id)
 }

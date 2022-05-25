@@ -36,6 +36,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -80,6 +83,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.4'
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
     // endregion
 
     // region Room

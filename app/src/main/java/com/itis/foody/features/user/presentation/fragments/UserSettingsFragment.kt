@@ -12,8 +12,7 @@ import androidx.fragment.app.viewModels
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidUsernameException
-import com.itis.foody.common.extensions.navigateBack
-import com.itis.foody.common.extensions.showMessage
+import com.itis.foody.common.extensions.*
 import com.itis.foody.databinding.FragmentUserSettingsBinding
 import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.presentation.viewModels.UserViewModel
@@ -36,6 +35,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentUserSettingsBinding.bind(view)
 
+        showDataLoading()
         initObservers()
         getUser()
         setActionBarAttrs()
@@ -58,6 +58,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
             it.fold(onSuccess = { user ->
                 this.user = user
                 updateUI(user)
+                hideDataLoading()
             }, onFailure = {
                 showMessage("Problems. Try again.")
             })
@@ -66,8 +67,10 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
             it.fold(onSuccess = {
                 showMessage("Data successfully updated")
                 navigateBack()
+                hideLoading()
             }, onFailure = {
                 showMessage("Problems. Please, try again.")
+                hideLoading()
             })
         }
     }
@@ -91,6 +94,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         ) {
             showPasswordAlertDialog(username, email)
         }
+        else navigateBack()
     }
 
     private fun showPasswordAlertDialog(username: String, email: String) {
@@ -98,7 +102,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         val text = view.findViewById<EditText>(R.id.et_pass)
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Enter your password:")
+            .setMessage("Enter your password:")
             .setView(view)
             .setPositiveButton("Send") { _, _ ->
                 checkInput(username, email, text.text.toString())
@@ -113,6 +117,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
     private fun checkInput(username: String, email: String, password: String) {
         if(password.isNotBlank()) try {
             viewModel.changeUserData(username, email, password)
+            showLoading()
         } catch (e: Exception) {
             showMessage("Wrong password")
         }

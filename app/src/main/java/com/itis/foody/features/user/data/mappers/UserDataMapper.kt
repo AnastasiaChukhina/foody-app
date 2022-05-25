@@ -1,6 +1,6 @@
 package com.itis.foody.features.user.data.mappers
 
-import com.itis.foody.common.db.User
+import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.user.domain.models.Account
 import javax.inject.Inject

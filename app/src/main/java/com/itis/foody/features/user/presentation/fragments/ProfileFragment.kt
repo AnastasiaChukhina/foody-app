@@ -2,13 +2,14 @@ package com.itis.foody.features.user.presentation.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.itis.foody.R
+import com.itis.foody.common.extensions.hideDataLoading
+import com.itis.foody.common.extensions.showDataLoading
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.databinding.FragmentProfileBinding
 import com.itis.foody.features.user.domain.models.Account
@@ -26,6 +27,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileBinding.bind(view)
 
+        showDataLoading()
         setListeners()
         initObservers()
         getUser()
@@ -47,6 +49,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             it.fold(onSuccess = { user ->
                 updateUI(user)
                 setActionBarAttrs(user.username)
+                hideDataLoading()
             }, onFailure = {
                 showMessage("Problems with loading data")
             })

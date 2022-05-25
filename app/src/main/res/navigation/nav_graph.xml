@@ -74,6 +74,9 @@
                 <action
                     android:id="@+id/action_savedRecipesFragment_to_detailRecipeFragment"
                     app:destination="@id/nav_detailed_recipe" />
+                <action
+                    android:id="@+id/action_savedRecipesFragment_to_searchFragment"
+                    app:destination="@id/searchFragment" />
             </fragment>
         </navigation>
         <fragment
@@ -87,7 +90,11 @@
         <fragment
             android:id="@+id/recipeListFragment"
             android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.RecipeListFragment"
-            android:label="RecipeListFragment" />
+            android:label="RecipeListFragment" >
+            <action
+                android:id="@+id/action_recipeListFragment_to_nav_detailed_recipe"
+                app:destination="@id/nav_detailed_recipe" />
+        </fragment>
     </navigation>
     <navigation android:id="@+id/nav_auth"
         app:startDestination="@id/welcomeFragment">

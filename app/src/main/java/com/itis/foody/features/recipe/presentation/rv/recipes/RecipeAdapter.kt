@@ -18,8 +18,11 @@ class RecipeAdapter(
         holder.bind(getItem(position))
     }
 
-    override fun submitList(list: List<RecipeSimple>?) {
-        super.submitList( list ?: ArrayList())
+    override fun submitList(list: MutableList<RecipeSimple>?) {
+        super.submitList(
+            if (list == null) null
+            else ArrayList(list)
+        )
     }
 }
 

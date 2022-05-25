@@ -5,14 +5,15 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
+import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.di.modules.qualifiers.UsersReference
-import com.itis.foody.common.db.User
 import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.user.domain.exceptions.UserNotFoundException
 import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.domain.repositories.UserRepository
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class UserRepositoryImpl @Inject constructor(
@@ -25,7 +26,11 @@ class UserRepositoryImpl @Inject constructor(
         return getCurrentUser()
     }
 
-    override suspend fun changeUserData(username: String, email: String, password: String): Account =
+    override suspend fun changeUserData(
+        username: String,
+        email: String,
+        password: String
+    ): Account =
         processUserData(username, email, password)
 
     override suspend fun logout(): FirebaseUser? {
@@ -33,13 +38,16 @@ class UserRepositoryImpl @Inject constructor(
         return auth.currentUser
     }
 
-    private suspend fun processUserData(username: String, email: String, password: String): Account {
+    private suspend fun processUserData(
+        username: String,
+        email: String,
+        password: String
+    ): Account {
         val firebaseUser = getAuthUser()
         firebaseUser.apply {
             updateUserUsername(username, this.uid)
             if (this.email.toString() != email) {
                 verifyAndUpdate(email, password)
-                updateUserEmail(email, this.uid)
             }
         }
         return getCurrentUser()
@@ -65,30 +73,33 @@ class UserRepositoryImpl @Inject constructor(
         firebaseUser.apply {
             reauthenticate(credential)
                 .addOnCompleteListener {
+                    updateUserEmail(email, this.uid)
                     updateEmailInCloud(email)
                 }
         }
     }
 
-    private fun updateUserEmail(email: String, uid: String) {
+    private fun updateUserEmail(email: String, uid: String)  {
         reference.child(uid).child("email").setValue(email)
-            .addOnSuccessListener {
+            .addOnSuccessListener { success ->
                 Log.i("EMAIL CHANGE", "Email successfully changed")
-            }.addOnFailureListener {
+            }.addOnFailureListener { e ->
                 Log.e("EMAIL CHANGE", "Email change failed")
             }
     }
 
-    private fun updateUserUsername(username: String, uid: String) {
+    private suspend fun updateUserUsername(username: String, uid: String) = suspendCoroutine<Void> {
         reference.child(uid).child("username").setValue(username)
-            .addOnSuccessListener {
+            .addOnSuccessListener { success ->
                 Log.i("USERNAME CHANGE", "Username successfully changed")
-            }.addOnFailureListener {
+                it.resume(success)
+            }.addOnFailureListener { e ->
                 Log.e("USERNAME CHANGE", "Username change failed")
+                it.resumeWithException(e)
             }
     }
 
-    private suspend fun getCurrentUser(): Account  {
+    private suspend fun getCurrentUser(): Account {
         val firebaseUser = getAuthUser()
         return firebaseUser.let {
             accountMapper.map(

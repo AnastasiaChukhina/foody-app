@@ -6,7 +6,7 @@ import com.itis.foody.features.recipe.domain.models.PopularRecipeTag
 
 class PopularRecipesAdapter(
     private val list: List<PopularRecipeTag>,
-    private val action: (Int) -> Unit
+    private val action: (String) -> Unit
 ) : RecyclerView.Adapter<PopularRecipesHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularRecipesHolder =

@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
+import com.itis.foody.common.extensions.hideDataLoading
+import com.itis.foody.common.extensions.hideLoading
+import com.itis.foody.common.extensions.showDataLoading
+import com.itis.foody.common.extensions.showLoading
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentSearchBinding
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
-import com.itis.foody.features.recipe.domain.tempData.LastSeenRepository
 import com.itis.foody.features.recipe.domain.tempData.RecipeTagRepository
 import com.itis.foody.features.recipe.presentation.rv.popularRecipes.PopularRecipesAdapter
 import com.itis.foody.features.recipe.presentation.rv.recipes.RecipeAdapter
@@ -36,11 +40,34 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
 
+        showDataLoading()
         initAdapters()
         initRecyclerViews()
         initSearchView()
         initObservers()
-        loadLastSeenRecipes()
+        getLastSeen()
+    }
+
+    private fun initObservers() {
+        with(viewModel) {
+            recipes.observe(viewLifecycleOwner) {
+                it.fold(onSuccess = { list ->
+                    updateResultList(list)
+                    hideLoading()
+                }, onFailure = {
+                    hideLoading()
+                    showErrorText()
+                })
+            }
+            lastSeen.observe(viewLifecycleOwner) {
+                it.fold(onSuccess = { list ->
+                    loadLastSeenRecipes(list)
+                    hideDataLoading()
+                }, onFailure = { e ->
+                    Log.e("LAST_SEEN", "Failed to load last seen recipes - $e")
+                })
+            }
+        }
     }
 
     private fun initRecyclerViews() {
@@ -48,7 +75,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             rvLastSeen.apply {
                 adapter = lastSeenRecipesAdapter
             }
-            rvRecipeSets.apply {
+            rvPopularRecipes.apply {
                 adapter = popularRecipesAdapter
             }
             rvResults.apply {
@@ -57,71 +84,53 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    private fun getLastSeen() {
+        viewModel.loadLastSeen()
+    }
+
     private fun initAdapters() {
         recipeSearchAdapter = RecipeAdapter {
             showRecipe(it)
         }
         lastSeenRecipesAdapter = RecipeAdapter {
-            navigateToRecipeListFragment(it)
+            navigateToRecipeFragment(it)
         }
-        popularRecipesAdapter = PopularRecipesAdapter(RecipeTagRepository.recipeTags) {
+        popularRecipesAdapter = PopularRecipesAdapter(RecipeTagRepository.recipeTags.shuffled()) {
             navigateToRecipeListFragment(it)
         }
     }
 
-    private fun loadLastSeenRecipes() {
-        val list = LastSeenRepository.getList()
-        if (list != null) {
+    private fun loadLastSeenRecipes(list: MutableList<RecipeSimple>) {
+        if (list.isNotEmpty()) {
             binding.tvLastSeen.visibility = View.VISIBLE
             lastSeenRecipesAdapter.submitList(list)
         } else binding.tvLastSeen.visibility = View.GONE
     }
 
-    private fun initObservers() {
-        with(viewModel) {
-            recipesByIngredient.observe(viewLifecycleOwner) {
-                it.fold(onSuccess = { list ->
-                    updateResultList(list)
-                    hideLoading()
-                }, onFailure = {
-                    hideLoading()
-                    showErrorText()
-                })
-            }
-            recipesByName.observe(viewLifecycleOwner) {
-                it.fold(onSuccess = { list ->
-                    updateResultList(list)
-                    hideLoading()
-                }, onFailure = {
-                    hideLoading()
-                    showErrorText()
-                })
-            }
-        }
-    }
-
     private fun showErrorText() {
         with(binding) {
-            rvResults.visibility = View.INVISIBLE
+            rvResults.visibility = View.GONE
             tvNoRecipeFound.visibility = View.VISIBLE
         }
     }
 
-    private fun updateResultList(list: List<RecipeSimple>) {
-        Log.e("RESULT", list.toString())
+    private fun updateResultList(list: MutableList<RecipeSimple>?) {
         recipeSearchAdapter.submitList(list)
-        showResults()
+        showList()
     }
 
-    private fun showResults() {
-        binding.rvResults.visibility = View.VISIBLE
+    private fun showList() {
+        with(binding) {
+            rvResults.visibility = View.VISIBLE
+            groupSearch.visibility = View.GONE
+        }
     }
 
     private fun initSearchView() {
         binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 showLoading()
-                getRecipeList(query?.trim().toString())
+                searchByQuery(query?.trim().toString())
                 return false
             }
 
@@ -131,30 +140,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         })
     }
 
-    private fun showLoading() {
-        with(binding) {
-            groupSearch.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-        }
-    }
-
-    private fun hideLoading() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun getRecipeList(query: String) {
-        when (binding.spinnerSearchBy.selectedItem.toString()) {
-            "Name" -> searchRecipesByName(query)
-            "Ingredient" -> searchRecipesByIngredient(query)
-        }
-    }
-
-    private fun searchRecipesByIngredient(ingredient: String) {
-        viewModel.getRecipeListByIngredient(ingredient)
-    }
-
-    private fun searchRecipesByName(name: String) {
-        viewModel.getRecipeListByName(name)
+    private fun searchByQuery(query: String) {
+        viewModel.getRecipesByQuery(query)
     }
 
     private fun showRecipe(id: Int) {
@@ -164,18 +151,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun navigateToRecipeFragment(id: Int) {
         findNavController().navigate(
             R.id.action_searchFragment_to_detailRecipeFragment,
-            Bundle().apply {
-                putInt("RECIPE_ID", id)
-            }
+            bundleOf("RECIPE_ID" to id)
         )
     }
 
-    private fun navigateToRecipeListFragment(id: Int) {
+    private fun navigateToRecipeListFragment(collectionTag: String) {
         findNavController().navigate(
             R.id.action_searchFragment_to_recipeListFragment,
-            Bundle().apply {
-                putInt("TAG", id)
-            }
+            bundleOf("COLLECTION_TAG" to collectionTag)
         )
     }
 }

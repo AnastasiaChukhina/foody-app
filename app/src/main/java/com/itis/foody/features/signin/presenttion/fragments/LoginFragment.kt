@@ -9,11 +9,11 @@ import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
+import com.itis.foody.common.extensions.hideLoading
+import com.itis.foody.common.extensions.showLoading
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentLoginBinding
-import com.itis.foody.features.signin.domain.exceptions.FirebaseAuthFailedException
-import com.itis.foody.features.signin.domain.exceptions.UnknownEmailException
 import com.itis.foody.features.signin.domain.models.UserForm
 import com.itis.foody.features.signin.domain.services.SignInValidationService
 import com.itis.foody.features.signin.presenttion.viewModels.SignInViewModel
@@ -117,14 +117,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         findNavController().navigate(
             R.id.action_loginFragment_to_profileFragment
         )
-    }
-
-    private fun showLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideLoading() {
-        binding.progressBar.visibility = View.GONE
     }
 
     private fun setActionBarAttrs() {

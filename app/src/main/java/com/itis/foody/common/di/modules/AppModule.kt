@@ -25,7 +25,4 @@ class AppModule {
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences("user", Context.MODE_PRIVATE)
-
-    @Provides
-    fun providesImageUrlBuilder() = RecipeDataConverter()
 }

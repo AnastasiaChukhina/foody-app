@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.itis.foody.common.di.modules.qualifiers.UsersReference
-import com.itis.foody.common.db.User
+import com.itis.foody.common.db.entities.User
 import com.itis.foody.features.signup.domain.exceptions.RegistrationFailedException
 import com.itis.foody.features.signup.domain.exceptions.SuchEmailAlreadyRegisteredException
 import com.itis.foody.features.signup.domain.models.UserForm

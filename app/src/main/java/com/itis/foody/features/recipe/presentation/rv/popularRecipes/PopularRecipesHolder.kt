@@ -9,7 +9,7 @@ import com.itis.foody.features.recipe.domain.models.PopularRecipeTag
 
 class PopularRecipesHolder(
     private val binding: ItemCollectionBinding,
-    private val action: (Int) -> Unit
+    private val action: (String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: PopularRecipeTag) {
@@ -17,14 +17,14 @@ class PopularRecipesHolder(
             ivImage.load(item.image)
         }
         itemView.setOnClickListener {
-            action(item.id)
+            action(item.tag)
         }
     }
 
     companion object {
         fun create(
             parent: ViewGroup,
-            action: (Int) -> Unit
+            action: (String) -> Unit
         ) = PopularRecipesHolder(
             ItemCollectionBinding.inflate(
                 LayoutInflater.from(parent.context),

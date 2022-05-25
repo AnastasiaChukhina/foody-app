@@ -20,7 +20,7 @@ interface Api {
     @GET("{id}/information?includeNutrition=true")
     suspend fun getRecipeInfo(@Path("id") id: Int): RecipeInfoResponse
 
-    @GET("random")
+    @GET("random?number=10")
     suspend fun getPopularRecipesByTag(@Query("tags") tags: String): PopularRecipesResponse
 
     @GET("{id}/similar")

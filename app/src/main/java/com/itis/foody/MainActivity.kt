@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Foody)
         setContentView(R.layout.activity_main)
 
         controller = findController(R.id.container)
@@ -45,6 +46,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideBottomNav() {
         bottomNav.visibility = View.GONE
-
     }
 }

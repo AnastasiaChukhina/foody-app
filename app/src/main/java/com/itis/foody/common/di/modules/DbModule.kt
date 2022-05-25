@@ -1,6 +1,8 @@
 package com.itis.foody.common.di.modules
 
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.StorageReference
+import com.itis.foody.common.di.modules.qualifiers.ImagesReference
 import com.itis.foody.common.di.modules.qualifiers.RecipeSetsReference
 import com.itis.foody.common.di.modules.qualifiers.RecipesReference
 import com.itis.foody.common.di.modules.qualifiers.UsersReference
@@ -24,4 +26,8 @@ class DbModule {
     @Provides
     @RecipesReference
     fun providesRecipesReference(database: DatabaseReference) = database.child("recipes")
+
+    @Provides
+    @ImagesReference
+    fun providesImagesReference(database: StorageReference) = database.child("images")
 }

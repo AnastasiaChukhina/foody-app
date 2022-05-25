@@ -1,6 +1,8 @@
 package com.itis.foody.common.di.modules
 
-import com.itis.foody.common.db.User
+import com.itis.foody.common.db.entities.Recipe
+import com.itis.foody.common.db.entities.RecipeSet
+import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.data.mappers.*
 import com.itis.foody.features.recipe.data.response.popularRecipes.PopularRecipesResponse
@@ -8,6 +10,7 @@ import com.itis.foody.features.recipe.data.response.recipeInfo.RecipeInfoRespons
 import com.itis.foody.features.recipe.data.response.searchByIngredient.RecipeListByIngredientResponse
 import com.itis.foody.features.recipe.data.response.searchByName.RecipeListByNameResponse
 import com.itis.foody.features.recipe.data.response.similarRecipes.SimilarRecipesResponse
+import com.itis.foody.features.recipe.domain.models.RecipeCollection
 import com.itis.foody.features.recipe.domain.models.RecipeDetails
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
 import com.itis.foody.features.user.data.mappers.UserDataMapper
@@ -50,4 +53,24 @@ interface MapperModule {
     fun bindsUserDataMapper(
         impl: UserDataMapper
     ): ModelMapper<User, Account>
+
+    @Binds
+    fun bindsRecipeToSimpleRecipeMapper(
+        impl: RecipeSimpleByRecipeMapper
+    ): ModelMapper<Recipe, RecipeSimple>
+
+    @Binds
+    fun bindsRecipeDetailsToRecipeMapper(
+        impl: RecipeDetailsToRecipeMapper
+    ): ModelMapper<RecipeDetails, Recipe>
+
+    @Binds
+    fun bindsRecipeDetailsToSimpleMapper(
+        impl: RecipeDetailsToRecipeSimpleMapper
+    ): ModelMapper<RecipeDetails, RecipeSimple>
+
+    @Binds
+    fun bindsRecipeSetToCollection(
+        impl: RecipeSetToCollectionMapper
+    ): ModelMapper<RecipeSet, RecipeCollection>
 }

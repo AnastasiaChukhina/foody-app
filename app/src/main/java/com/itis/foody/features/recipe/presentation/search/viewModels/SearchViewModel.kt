@@ -5,46 +5,46 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
-import com.itis.foody.features.recipe.domain.usecases.search.GetRecipeListByIngredientUseCase
-import com.itis.foody.features.recipe.domain.usecases.search.GetRecipeListByNameUseCase
+import com.itis.foody.features.recipe.domain.usecases.search.GetLastSeenRecipesUseCase
+import com.itis.foody.features.recipe.domain.usecases.search.GetRecipeListByQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getRecipeListByIngredientUseCase: GetRecipeListByIngredientUseCase,
-    private val getRecipeListByNameUseCase: GetRecipeListByNameUseCase
+    private val getLastSeenRecipesUseCase: GetLastSeenRecipesUseCase,
+    private val getRecipeListByQueryUseCase: GetRecipeListByQueryUseCase
 ) : ViewModel() {
 
-    private var _recipesByName: MutableLiveData<Result<MutableList<RecipeSimple>>> =
+    private var _recipes: MutableLiveData<Result<MutableList<RecipeSimple>>> =
         MutableLiveData()
-    val recipesByName: LiveData<Result<MutableList<RecipeSimple>>> = _recipesByName
+    val recipes: LiveData<Result<MutableList<RecipeSimple>>> = _recipes
 
-    private var _recipesByIngredient: MutableLiveData<Result<MutableList<RecipeSimple>>> =
+    private var _lastSeen: MutableLiveData<Result<MutableList<RecipeSimple>>> =
         MutableLiveData()
-    val recipesByIngredient: LiveData<Result<MutableList<RecipeSimple>>> = _recipesByIngredient
+    val lastSeen: LiveData<Result<MutableList<RecipeSimple>>> = _lastSeen
 
-    fun getRecipeListByIngredient(ingredient: String) {
+    fun loadLastSeen() {
         viewModelScope.launch {
-            runCatching {
-                getRecipeListByIngredientUseCase(ingredient)
+            kotlin.runCatching {
+                getLastSeenRecipesUseCase()
             }.onSuccess {
-                _recipesByIngredient.value = Result.success(it)
+                _lastSeen.value = Result.success(it)
             }.onFailure {
-                _recipesByIngredient.value = Result.failure(it)
+                _lastSeen.value = Result.failure(it)
             }
         }
     }
 
-    fun getRecipeListByName(name: String) {
+    fun getRecipesByQuery(query: String) {
         viewModelScope.launch {
-            runCatching {
-                getRecipeListByNameUseCase(name)
+            kotlin.runCatching {
+                getRecipeListByQueryUseCase(query)
             }.onSuccess {
-                _recipesByName.value = Result.success(it)
+                _recipes.value = Result.success(it)
             }.onFailure {
-                _recipesByName.value = Result.failure(it)
+                _recipes.value = Result.failure(it)
             }
         }
     }

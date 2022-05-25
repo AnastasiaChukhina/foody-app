@@ -1,6 +1,8 @@
 package com.itis.foody.common.di.modules
 
+import com.itis.foody.features.recipe.data.repositories.RecipeRepositoryImpl
 import com.itis.foody.features.recipe.data.repositories.RecipeSearchRepositoryImpl
+import com.itis.foody.features.recipe.domain.repositories.RecipeRepository
 import com.itis.foody.features.recipe.domain.repositories.RecipeSearchRepository
 import com.itis.foody.features.signin.data.repositories.SignInRepositoryImpl
 import com.itis.foody.features.signin.domain.repositories.SignInRepository
@@ -36,4 +38,9 @@ interface RepoModule {
     fun bindsRecipeSearchRepository(
         impl: RecipeSearchRepositoryImpl
     ): RecipeSearchRepository
+
+    @Binds
+    fun bindsRecipeRepository(
+        impl: RecipeRepositoryImpl
+    ): RecipeRepository
 }

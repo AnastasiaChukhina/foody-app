@@ -8,32 +8,25 @@
     <TextView
         android:id="@+id/tv_ingredient_name"
         style="@style/TextViewIngredient"
+        android:layout_width="0dp"
+        android:layout_margin="8dp"
         android:layout_marginStart="8dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_ingredient_amount"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/iv_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/ingredient_example" />
-
-    <TextView
-        android:id="@+id/tv_ingredient_num"
-        style="@style/TextViewIngredient"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/ingredient_number_example" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_ingredient_name"
-        app:layout_constraintStart_toEndOf="@id/tv_ingredient_num"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/recipe_example" />
 
@@ -41,9 +34,8 @@
         android:id="@+id/tv_ingredient_amount"
         style="@style/TextViewIngredient"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_ingredient_name"
         tools:text="@string/ingredient_amount_example" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

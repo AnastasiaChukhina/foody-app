@@ -60,7 +60,7 @@
     <TextView
         android:id="@+id/tv_protein"
         style="@style/TextViewNutrientsInfo"
-        android:text="@string/carbs"
+        android:text="@string/protein"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_fats" />
 

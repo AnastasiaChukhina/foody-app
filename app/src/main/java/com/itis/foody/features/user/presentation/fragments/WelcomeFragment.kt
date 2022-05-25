@@ -1,12 +1,13 @@
 package com.itis.foody.features.user.presentation.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.itis.foody.R
+import com.itis.foody.common.extensions.hideDataLoading
+import com.itis.foody.common.extensions.showDataLoading
 import com.itis.foody.databinding.FragmentWelcomeBinding
 import com.itis.foody.features.user.presentation.viewModels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
         initObservers()
         setListeners()
-
+        showDataLoading()
         checkIfAlreadyAuth()
     }
 
@@ -32,6 +33,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         viewModel.sessionUser.observe(viewLifecycleOwner) {
             it.fold(onSuccess = {
                 navigateToProfile()
+                hideDataLoading()
             }, onFailure = {})
         }
     }

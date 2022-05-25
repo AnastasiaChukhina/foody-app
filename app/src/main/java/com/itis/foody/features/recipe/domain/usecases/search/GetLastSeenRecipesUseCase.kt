@@ -6,14 +6,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetRecipeListByNameUseCase @Inject constructor(
+class GetLastSeenRecipesUseCase @Inject constructor(
     private val recipeSearchRepository: RecipeSearchRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(name: String): MutableList<RecipeSimple> {
+    suspend operator fun invoke(): MutableList<RecipeSimple> {
         return withContext(dispatcher) {
-            recipeSearchRepository.getRecipeListByName(name)
+            recipeSearchRepository.getLastSeenRecipes()
         }
     }
 }

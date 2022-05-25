@@ -6,14 +6,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetRecipeListByIngredientUseCase @Inject constructor(
+class GetRecipeListByQueryUseCase @Inject constructor(
     private val recipeSearchRepository: RecipeSearchRepository,
     private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend operator fun invoke(ingredient: String): MutableList<RecipeSimple> {
+    suspend operator fun invoke(query: String): MutableList<RecipeSimple> {
         return withContext(dispatcher) {
-            recipeSearchRepository.getRecipeListByIngredient(ingredient)
+            recipeSearchRepository.getRecipeListByQuery(query)
         }
     }
 }

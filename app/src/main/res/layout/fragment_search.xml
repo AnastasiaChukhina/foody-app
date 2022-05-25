@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/app_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recipe_sets"
+        android:id="@+id/rv_popular_recipes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -60,60 +60,52 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/search_view"
+        android:background="@drawable/bg_white_rounded"
+        app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="@id/gl_vert_end"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"
-        app:layout_constraintTop_toBottomOf="@id/rv_recipe_sets" />
+        app:layout_constraintTop_toBottomOf="@id/rv_popular_recipes"
+        app:queryBackground="@drawable/bg_white_rounded"
+        app:submitBackground="@drawable/bg_white_rounded" />
 
     <TextView
         android:id="@+id/tv_last_seen"
         style="@style/TextViewDark"
         android:text="@string/last_seen"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"
-        app:layout_constraintTop_toBottomOf="@id/spinner_search_by" />
+        app:layout_constraintTop_toBottomOf="@+id/sv_search" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="tv_popular, rv_recipe_sets, tv_last_seen, rv_last_seen" />
+        app:constraint_referenced_ids="tv_popular, rv_popular_recipes, tv_last_seen, rv_last_seen" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_last_seen"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_last_seen"
         tools:itemCount="3"
         tools:listitem="@layout/item_recipe" />
 
-    <Spinner
-        android:id="@+id/spinner_search_by"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/search_by"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_search_by"
-        app:layout_constraintEnd_toEndOf="@id/sv_search"
-        app:layout_constraintStart_toEndOf="@+id/tv_search_by"
-        app:layout_constraintTop_toTopOf="@+id/tv_search_by" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_results"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         app:flow_horizontalAlign="center"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gl_vert_end"
         app:layout_constraintStart_toStartOf="@id/gl_vert_start"
-        app:layout_constraintTop_toBottomOf="@id/spinner_search_by"
+        app:layout_constraintTop_toBottomOf="@id/sv_search"
         app:spanCount="2"
         tools:itemCount="5"
         tools:listitem="@layout/item_recipe" />
@@ -129,27 +121,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sv_search" />
-
-    <TextView
-        android:id="@+id/tv_search_by"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/search_by"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/spinner_search_by"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="@+id/gl_vert_start"
-        app:layout_constraintTop_toBottomOf="@+id/sv_search" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

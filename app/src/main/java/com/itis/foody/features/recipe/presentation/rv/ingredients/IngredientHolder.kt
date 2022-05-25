@@ -15,11 +15,10 @@ class IngredientHolder(
 
     fun bind(item: Ingredient) {
         with(binding) {
-            tvIngredientNum.text = itemId.toString()
             tvIngredientName.text = item.name
             tvIngredientAmount.text =
                 converter.convertIngredientAmountToString(item.amount, item.unit)
-            ivImage.load(item.image)
+            ivImage.load(converter.convertIngredientImageUrl(item.image))
         }
     }
 

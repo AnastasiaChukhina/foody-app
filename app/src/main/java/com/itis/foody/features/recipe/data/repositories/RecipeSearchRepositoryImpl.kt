@@ -1,5 +1,6 @@
 package com.itis.foody.features.recipe.data.repositories
 
+import com.itis.foody.common.db.searchStory.LastSeenRepository
 import com.itis.foody.features.recipe.data.api.Api
 import com.itis.foody.features.recipe.data.response.searchByIngredient.RecipeListByIngredientResponse
 import com.itis.foody.features.recipe.data.response.searchByName.RecipeListByNameResponse
@@ -14,12 +15,30 @@ class RecipeSearchRepositoryImpl @Inject constructor(
     private val recipeListByNameMapper: ModelMapper<RecipeListByNameResponse, MutableList<RecipeSimple>>
 ) : RecipeSearchRepository {
 
-    override suspend fun getRecipeListByIngredient(ingredient: String): MutableList<RecipeSimple> =
+    override suspend fun getRecipeListByQuery(query: String): MutableList<RecipeSimple> {
+        val listByName = getRecipeListByName(query)
+        val listByIngredient = getRecipeListByIngredient(query)
+        return mapResults(listByName, listByIngredient)
+    }
+
+    override suspend fun getLastSeenRecipes(): MutableList<RecipeSimple> =
+        LastSeenRepository.getList()
+
+    private fun mapResults(
+        firstList: MutableList<RecipeSimple>,
+        secondList: MutableList<RecipeSimple>
+    ): MutableList<RecipeSimple> {
+        firstList.addAll(secondList)
+        firstList.shuffle()
+        return firstList
+    }
+
+    private suspend fun getRecipeListByIngredient(ingredient: String): MutableList<RecipeSimple> =
         recipeListByIngredientMapper.map(
             api.getRecipesByIngredients(ingredient)
         )
 
-    override suspend fun getRecipeListByName(name: String): MutableList<RecipeSimple> =
+    private suspend fun getRecipeListByName(name: String): MutableList<RecipeSimple> =
         recipeListByNameMapper.map(
             api.getRecipesByName(name)
         )

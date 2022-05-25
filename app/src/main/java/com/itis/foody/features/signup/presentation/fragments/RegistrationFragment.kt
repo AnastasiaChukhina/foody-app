@@ -2,7 +2,6 @@ package com.itis.foody.features.signup.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +11,8 @@ import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidPasswordException
 import com.itis.foody.common.exceptions.InvalidUsernameException
 import com.itis.foody.common.exceptions.TooShortUsernameException
+import com.itis.foody.common.extensions.hideLoading
+import com.itis.foody.common.extensions.showLoading
 import com.itis.foody.common.extensions.showMessage
 import com.itis.foody.common.utils.ResourceManager
 import com.itis.foody.databinding.FragmentRegistrationBinding
@@ -150,14 +151,6 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         findNavController().navigate(
             R.id.action_registrationFragment_to_profileFragment
         )
-    }
-
-    private fun showLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun hideLoading() {
-        binding.progressBar.visibility = View.GONE
     }
 
     private fun setActionBarAttrs() {

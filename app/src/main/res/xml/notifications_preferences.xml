@@ -19,17 +19,4 @@
             android:title="@string/dinner" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:icon="@drawable/ic_baseline_message_24"
-        android:key="email_notifications"
-        android:title="@string/email_notifications_title">
-
-        <SwitchPreferenceCompat
-            android:key="email"
-            android:summaryOff="@string/email_notifications_off"
-            android:summaryOn="@string/email_notifications_on"
-            android:title="@string/email_notifications" />
-    </PreferenceCategory>
-
-
 </PreferenceScreen>

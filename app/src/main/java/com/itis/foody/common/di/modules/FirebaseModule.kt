@@ -14,7 +14,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 private const val DB_URL = "https://foody-627d7-default-rtdb.europe-west1.firebasedatabase.app/"
-private const val STORAGE_CUSTOM_BUCKET = "gs://my-custom-bucket"
+private const val STORAGE_CUSTOM_BUCKET = "gs://foody-627d7.appspot.com"
 
 @Module
 @InstallIn(SingletonComponent::class)

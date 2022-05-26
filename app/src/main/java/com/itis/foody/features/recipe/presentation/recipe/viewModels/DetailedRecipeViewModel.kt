@@ -41,8 +41,8 @@ class DetailedRecipeViewModel @Inject constructor(
         MutableLiveData()
     val userCollections: LiveData<Result<MutableList<RecipeCollection>>> = _userCollections
 
-    private var _newCollection: MutableLiveData<Result<RecipeCollection>> = MutableLiveData()
-    val newCollection: LiveData<Result<RecipeCollection>> = _newCollection
+    private var _newCollection: SingleLiveEvent<Result<RecipeCollection>> = SingleLiveEvent()
+    val newCollection: SingleLiveEvent<Result<RecipeCollection>> = _newCollection
 
     private var _lastSeen: MutableLiveData<Result<MutableList<RecipeSimple>?>> =
         MutableLiveData()

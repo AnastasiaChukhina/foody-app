@@ -1,22 +1,28 @@
 package com.itis.foody.features.user.presentation.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import coil.load
 import com.itis.foody.R
 import com.itis.foody.common.exceptions.InvalidEmailException
 import com.itis.foody.common.exceptions.InvalidUsernameException
 import com.itis.foody.common.extensions.*
 import com.itis.foody.databinding.FragmentUserSettingsBinding
 import com.itis.foody.features.user.domain.models.Account
-import com.itis.foody.features.user.presentation.viewModels.UserViewModel
 import com.itis.foody.features.user.domain.service.UserDataValidationService
+import com.itis.foody.features.user.presentation.viewModels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,10 +32,20 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
     private lateinit var binding: FragmentUserSettingsBinding
     private lateinit var user: Account
 
+    private var uri: Uri? = null
+
     @Inject
     lateinit var userDataValidationService: UserDataValidationService
 
     private val viewModel: UserViewModel by viewModels()
+
+    private val pickImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                uri = result.data?.data
+                binding.ivImage.setImageURI(uri)
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +55,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         initObservers()
         getUser()
         setActionBarAttrs()
+        setListeners()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -53,12 +70,17 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         inflater.inflate(R.menu.account_settings_menu, menu)
     }
 
+    private fun setListeners() {
+        binding.btnChooseImage.setOnClickListener {
+            pickImageFromGallery()
+        }
+    }
+
     private fun initObservers() {
         viewModel.sessionUser.observe(viewLifecycleOwner) {
             it.fold(onSuccess = { user ->
                 this.user = user
                 updateUI(user)
-                hideDataLoading()
             }, onFailure = {
                 showMessage("Problems. Try again.")
             })
@@ -66,24 +88,64 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         viewModel.updatedUser.observe(viewLifecycleOwner) {
             it.fold(onSuccess = {
                 showMessage("Data successfully updated")
-                navigateBack()
+                checkImage()
                 hideLoading()
             }, onFailure = {
                 showMessage("Problems. Please, try again.")
                 hideLoading()
             })
         }
+        viewModel.newImage.observe(viewLifecycleOwner) {
+            it.fold(onSuccess = {
+                hideLoading()
+                navigateBack()
+            }, onFailure = {
+            })
+        }
+        viewModel.profileImage.observe(viewLifecycleOwner) {
+            it.fold(onSuccess = { uri ->
+                loadImage(uri)
+                hideDataLoading()
+            }, onFailure = {
+            })
+        }
+    }
+
+    private fun loadImage(uri: Uri) {
+        binding.ivImage.load(uri)
+    }
+
+    private fun checkImage() {
+        uri?.apply {
+            showLoading()
+            viewModel.updateProfileImage(binding.ivImage)
+        } ?: navigateBack()
     }
 
     private fun updateUI(user: Account) {
         with(binding) {
             etUsername.setText(user.username)
             etEmail.setText(user.email)
+            user.profileImage?.let {
+                loadCurrentProfileImage(it)
+            } ?: hideDataLoading()
         }
+    }
+
+    private fun loadCurrentProfileImage(image: String) {
+        viewModel.getImageUri(image)
     }
 
     private fun getUser() {
         viewModel.getSessionUser()
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        pickImageResult.launch(intent)
     }
 
     private fun processUserInfo() {
@@ -93,8 +155,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
             (email != user.email || username != user.username)
         ) {
             showPasswordAlertDialog(username, email)
-        }
-        else navigateBack()
+        } else if (uri != null) checkImage()
     }
 
     private fun showPasswordAlertDialog(username: String, email: String) {
@@ -115,7 +176,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
     }
 
     private fun checkInput(username: String, email: String, password: String) {
-        if(password.isNotBlank()) try {
+        if (password.isNotBlank()) try {
             viewModel.changeUserData(username, email, password)
             showLoading()
         } catch (e: Exception) {

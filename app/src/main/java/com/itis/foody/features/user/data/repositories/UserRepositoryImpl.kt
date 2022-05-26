@@ -1,16 +1,21 @@
 package com.itis.foody.features.user.data.repositories
 
+import android.net.Uri
 import android.util.Log
+import android.widget.ImageView
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.StorageReference
+import com.itis.foody.common.db.converters.ImageToBytesConverter
 import com.itis.foody.common.db.entities.User
 import com.itis.foody.common.di.modules.qualifiers.UsersReference
 import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.user.domain.exceptions.UserNotFoundException
 import com.itis.foody.features.user.domain.models.Account
 import com.itis.foody.features.user.domain.repositories.UserRepository
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -19,6 +24,8 @@ import kotlin.coroutines.suspendCoroutine
 class UserRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val accountMapper: ModelMapper<User, Account>,
+    private val imageReference: StorageReference,
+    private val converter: ImageToBytesConverter,
     @UsersReference private val reference: DatabaseReference
 ) : UserRepository {
 
@@ -36,6 +43,38 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun logout(): FirebaseUser? {
         auth.signOut()
         return auth.currentUser
+    }
+
+    override suspend fun setProfileImage(image: ImageView): Boolean {
+        val fileName = saveImage(image)
+        saveUserImage(fileName)
+        return true
+    }
+
+    override suspend fun getImage(fileName: String): Uri = getUri(fileName)
+
+    private suspend fun saveUserImage(fileName: String): Void = suspendCoroutine {
+        val firebaseUser = getAuthUser()
+        reference.child(firebaseUser.uid).child("profileImage").setValue(fileName)
+            .addOnSuccessListener { result ->
+                it.resume(result)
+            }
+    }
+
+    private suspend fun getUri(filename: String): Uri = suspendCoroutine {
+        imageReference.child("images").child(filename).downloadUrl
+            .addOnSuccessListener { uri ->
+                it.resume(uri)
+            }
+    }
+
+    private suspend fun saveImage(image: ImageView): String = suspendCoroutine {
+        val uuid = UUID.randomUUID().toString()
+        imageReference.child("images").child(uuid).putBytes(
+            converter.convertImage(image)
+        ).addOnSuccessListener { _ ->
+            it.resume(uuid)
+        }
     }
 
     private suspend fun processUserData(
@@ -79,7 +118,7 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun updateUserEmail(email: String, uid: String)  {
+    private fun updateUserEmail(email: String, uid: String) {
         reference.child(uid).child("email").setValue(email)
             .addOnSuccessListener { success ->
                 Log.i("EMAIL CHANGE", "Email successfully changed")

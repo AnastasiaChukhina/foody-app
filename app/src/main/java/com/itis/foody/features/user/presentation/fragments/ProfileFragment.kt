@@ -1,6 +1,7 @@
 package com.itis.foody.features.user.presentation.fragments
 
 import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -38,32 +39,48 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun initObservers() {
-        viewModel.user.observe(viewLifecycleOwner) {
-            it.fold(onSuccess = {
-                navigateToHelloFragment()
-            }, onFailure = {
-                showMessage("Problems with logout. please, try again.")
-            })
-        }
-        viewModel.sessionUser.observe(viewLifecycleOwner){
-            it.fold(onSuccess = { user ->
-                updateUI(user)
-                setActionBarAttrs(user.username)
-                hideDataLoading()
-            }, onFailure = {
-                showMessage("Problems with loading data")
-            })
+        with(viewModel) {
+            user.observe(viewLifecycleOwner) {
+                it.fold(onSuccess = {
+                    navigateToHelloFragment()
+                }, onFailure = {
+                    showMessage("Problems with logout. please, try again.")
+                })
+            }
+            sessionUser.observe(viewLifecycleOwner) {
+                it.fold(onSuccess = { user ->
+                    updateUI(user)
+                    setActionBarAttrs(user.username)
+                }, onFailure = {
+                    showMessage("Problems with loading data")
+                })
+            }
+            profileImage.observe(viewLifecycleOwner) {
+                it.fold(onSuccess = { uri ->
+                    loadImage(uri)
+                }, onFailure = {
+                })
+            }
         }
     }
 
+    private fun loadImage(uri: Uri) {
+        binding.ivAccount.load(uri)
+        hideDataLoading()
+    }
+
     private fun updateUI(user: Account) {
-        with(binding){
+        with(binding) {
             tvEmail.text = user.email
             tvUsername.text = user.username
             user.profileImage?.let {
-                ivAccount.load(it)
-            }
+                loadProfileImage(it)
+            } ?: hideDataLoading()
         }
+    }
+
+    private fun loadProfileImage(image: String) {
+        viewModel.getImageUri(image)
     }
 
     private fun setActionBarAttrs(username: String) {

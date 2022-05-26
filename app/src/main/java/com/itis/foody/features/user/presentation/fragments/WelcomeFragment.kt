@@ -34,7 +34,9 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
             it.fold(onSuccess = {
                 navigateToProfile()
                 hideDataLoading()
-            }, onFailure = {})
+            }, onFailure = {
+                hideDataLoading()
+            })
         }
     }
 

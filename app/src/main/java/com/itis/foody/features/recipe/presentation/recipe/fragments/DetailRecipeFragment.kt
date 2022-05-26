@@ -2,6 +2,7 @@ package com.itis.foody.features.recipe.presentation.recipe.fragments
 
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -77,6 +78,7 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
                     updateLastSeen()
                     hideRecipeLoading()
                 }, onFailure = { e ->
+                    Log.e("ERROR", e.toString())
                     showMessage("Recipe not available")
                     navigateBack()
                 })
@@ -111,7 +113,7 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
                 })
             }
             newCollection.observe(viewLifecycleOwner) {
-                it.fold(onSuccess = { collection ->
+                it?.fold(onSuccess = { collection ->
                     saveRecipeInNewCollection(collection.id)
                 }, onFailure = {
                     showMessage("Collection with the same name already exists")

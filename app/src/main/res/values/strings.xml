@@ -50,6 +50,7 @@
     <string name="email_notifications_off">Email notifications disabled</string>
     <string name="forget_password">Forget password?</string>
     <string name="already_have_account">Already have an account?</string>
+    <string name="do_not_have_account">Don\'t have an account?</string>
     <string name="search_by">Search recipe by:</string>
     <string name="results">Results</string>
     <string name="recipe_step_desc">Detailed description of each recipe step</string>

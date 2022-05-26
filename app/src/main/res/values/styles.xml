@@ -97,7 +97,7 @@
         <item name="android:scaleType">centerCrop</item>
         <item name="layout_constraintDimensionRatio">1</item>
         <item name="layout_constraintWidth_percent">.3</item>
-        <item name="strokeWidth">2dp</item>
+        <item name="strokeWidth">1dp</item>
         <item name="strokeColor">@color/stroke</item>
         <item name="android:src">@drawable/profile_img</item>
         <item name="shapeAppearance">@style/ShapeAppearanceOverlay.App.CornerSize50Percent</item>

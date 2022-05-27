@@ -1,10 +1,10 @@
 package com.itis.foody.features.recipe.data.repositories
 
 import com.itis.foody.common.db.searchStory.LastSeenRepository
+import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.data.api.Api
 import com.itis.foody.features.recipe.data.response.searchByIngredient.RecipeListByIngredientResponse
 import com.itis.foody.features.recipe.data.response.searchByName.RecipeListByNameResponse
-import com.itis.foody.common.mappers.ModelMapper
 import com.itis.foody.features.recipe.domain.models.RecipeSimple
 import com.itis.foody.features.recipe.domain.repositories.RecipeSearchRepository
 import javax.inject.Inject

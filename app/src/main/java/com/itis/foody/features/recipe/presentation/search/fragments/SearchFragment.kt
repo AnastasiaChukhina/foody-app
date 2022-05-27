@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -102,9 +103,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun loadLastSeenRecipes(list: MutableList<RecipeSimple>) {
         if (list.isNotEmpty()) {
-            binding.tvLastSeen.visibility = View.VISIBLE
             lastSeenRecipesAdapter.submitList(list)
-        } else binding.tvLastSeen.visibility = View.GONE
+            if (!binding.rvResults.isVisible) {
+                binding.tvLastSeen.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun showErrorText() {

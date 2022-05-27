@@ -156,6 +156,7 @@ class UserSettingsFragment : Fragment(R.layout.fragment_user_settings) {
         ) {
             showPasswordAlertDialog(username, email)
         } else if (uri != null) checkImage()
+        else navigateBack()
     }
 
     private fun showPasswordAlertDialog(username: String, email: String) {

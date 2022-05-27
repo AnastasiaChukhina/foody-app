@@ -86,6 +86,7 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
             savedRecipe.observe(viewLifecycleOwner) {
                 it?.fold(onSuccess = {
                     updateIcon(true)
+                    isRecipeAlreadySaved = true
                     hideLoading()
                     showMessage("Successfully saved")
                 }, onFailure = {
@@ -93,6 +94,7 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
             }
             removedRecipe.observe(viewLifecycleOwner) {
                 it?.fold(onSuccess = {
+                    isRecipeAlreadySaved = false
                     updateIcon(false)
                     hideLoading()
                     showMessage("Remove recipe from saved")
@@ -109,6 +111,7 @@ class DetailRecipeFragment : Fragment(R.layout.fragment_detail_recipe) {
             userCollections.observe(viewLifecycleOwner) {
                 it.fold(onSuccess = { list ->
                     processCollections(list)
+                    hideLoading()
                 }, onFailure = {
                 })
             }

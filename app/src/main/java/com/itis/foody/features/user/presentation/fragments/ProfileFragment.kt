@@ -99,11 +99,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     R.id.action_profileFragment_to_userSettingsFragment
                 )
             }
-            clNotificationsSettings.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_profileFragment_to_notificationsSettingsFragment
-                )
-            }
         }
     }
 

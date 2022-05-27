@@ -17,9 +17,6 @@
                 android:id="@+id/action_profileFragment_to_userSettingsFragment"
                 app:destination="@id/userSettingsFragment" />
             <action
-                android:id="@+id/action_profileFragment_to_notificationsSettingsFragment"
-                app:destination="@id/notificationsSettingsFragment" />
-            <action
                 android:id="@+id/action_profileFragment_to_searchFragment"
                 app:destination="@id/searchFragment" />
             <action
@@ -83,10 +80,6 @@
             android:id="@+id/userSettingsFragment"
             android:name="com.itis.foody.features.user.presentation.fragments.UserSettingsFragment"
             android:label="UserSettingsFragment" />
-        <fragment
-            android:id="@+id/notificationsSettingsFragment"
-            android:name="com.itis.foody.features.user.presentation.fragments.NotificationsSettingsFragment"
-            android:label="NotificationsSettingsFragment" />
         <fragment
             android:id="@+id/recipeListFragment"
             android:name="com.itis.foody.features.recipe.presentation.recipe.fragments.RecipeListFragment"
